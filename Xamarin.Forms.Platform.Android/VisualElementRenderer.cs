@@ -151,6 +151,7 @@ namespace Xamarin.Forms.Platform.Android
 		}
 
 		public ViewGroup ViewGroup => this;
+		AView IVisualElementRenderer.View => this;
 
 		public event EventHandler<ElementChangedEventArgs<TElement>> ElementChanged;
 
