@@ -1,12 +1,15 @@
 using System;
 using System.ComponentModel;
-using System.IO;
-using System.Threading.Tasks;
-using Android.Graphics;
 using AImageView = Android.Widget.ImageView;
+using static Xamarin.Forms.Platform.Android.ImageViewExtensions;
 
 namespace Xamarin.Forms.Platform.Android
 {
+	internal interface IImageRendererController
+	{
+		void SkipInvalidate();
+	}
+
 	public class ImageRenderer : ViewRenderer<Image, AImageView>
 	{
 		bool _isDisposed;
@@ -43,7 +46,7 @@ namespace Xamarin.Forms.Platform.Android
 				SetNativeControl(view);
 			}
 
-			UpdateBitmap(e.OldElement);
+			Control.UpdateBitmap(e.NewElement, e.OldElement);
 			UpdateAspect();
 		}
 
@@ -52,7 +55,7 @@ namespace Xamarin.Forms.Platform.Android
 			base.OnElementPropertyChanged(sender, e);
 
 			if (e.PropertyName == Image.SourceProperty.PropertyName)
-				UpdateBitmap();
+				Control.UpdateBitmap(Element);
 			else if (e.PropertyName == Image.AspectProperty.PropertyName)
 				UpdateAspect();
 		}
@@ -61,60 +64,6 @@ namespace Xamarin.Forms.Platform.Android
 		{
 			AImageView.ScaleType type = Element.Aspect.ToScaleType();
 			Control.SetScaleType(type);
-		}
-
-		async void UpdateBitmap(Image previous = null)
-		{
-			if (Device.IsInvokeRequired)
-				throw new InvalidOperationException("Image Bitmap must not be updated from background thread");
-
-			if (previous != null && Equals(previous.Source, Element.Source))
-				return;
-
-			((IImageController)Element).SetIsLoading(true);
-
-			var formsImageView = Control as FormsImageView;
-			formsImageView?.SkipInvalidate();
-
-			Control.SetImageResource(global::Android.Resource.Color.Transparent);
-
-			ImageSource source = Element.Source;
-			Bitmap bitmap = null;
-			IImageSourceHandler handler;
-
-			if (source != null && (handler = Registrar.Registered.GetHandler<IImageSourceHandler>(source.GetType())) != null)
-			{
-				try
-				{
-					bitmap = await handler.LoadImageAsync(source, Context);
-				}
-				catch (TaskCanceledException)
-				{
-				}
-				catch (IOException ex)
-				{
-					Log.Warning("Xamarin.Forms.Platform.Android.ImageRenderer", "Error updating bitmap: {0}", ex);
-				}
-			}
-
-			if (Element == null || !Equals(Element.Source, source))
-			{
-				bitmap?.Dispose();
-				return;
-			}
-
-			if (!_isDisposed)
-			{
-				if (bitmap == null && source is FileImageSource)
-					Control.SetImageResource(ResourceManager.GetDrawableByName(((FileImageSource)source).File));
-				else
-					Control.SetImageBitmap(bitmap);
-
-				bitmap?.Dispose();
-
-				((IImageController)Element).SetIsLoading(false);
-				((IVisualElementController)Element).NativeSizeChanged();
-			}
 		}
 	}
 }
