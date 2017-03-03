@@ -56,7 +56,7 @@ namespace Xamarin.Forms.Platform.WinRT
 					Control.GotFocus += ControlOnGotFocus;
 				}
 
-				Control.ItemsSource = Element.Items;
+				Control.ItemsSource = ((Picker.LockableObservableListWrapper)Element.Items)._list;
 
 				UpdateTitle();
 				UpdateSelectedIndex();
