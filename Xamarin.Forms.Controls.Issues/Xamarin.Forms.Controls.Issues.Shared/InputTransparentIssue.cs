@@ -25,6 +25,10 @@ namespace Xamarin.Forms.Controls.Issues
 #if UITEST
 		[TestCase("Image")]
 		[TestCase("Label")]
+		[TestCase("Frame")]
+		[TestCase("Entry")]
+		[TestCase("Editor")]
+		[TestCase("Button")]
 		public void VerifyInputTransparent(string menuItem)
 		{
 			RunningApp.WaitForElement(q => q.Marked(menuItem));
@@ -61,9 +65,9 @@ namespace Xamarin.Forms.Controls.Issues
 			layout.RowDefinitions.Add(new RowDefinition());
 
 			var abs = new AbsoluteLayout();
-			var box = new BoxView { Color = Color.Red };
+			var box = new BoxView { Color = Color.BlanchedAlmond };
 
-			var label = new Label { BackgroundColor = Color.Green, Text = "Start" };
+			var label = new Label { BackgroundColor = Color.Chocolate, Text = "Start", Margin = 5 };
 
 			var taps = 0;
 
@@ -94,29 +98,32 @@ namespace Xamarin.Forms.Controls.Issues
 			return new ContentPage() {Content = layout};
 		}
 
+		Button MenuButton(string label, Func<View> view)
+		{
+			var button = new Button { Text = label };
+
+			var testView = view();
+			testView.AutomationId = TargetAutomationId;
+
+			button.Clicked += (sender, args) => PushAsync(CreateTestPage(testView));
+
+			return button;
+		}
+
 		ContentPage Menu()
 		{
 			var layout = new StackLayout();
 
-			var buttonImage = new Button { Text = "Image" };
-			buttonImage.Clicked +=
-				(sender, args) =>
-					PushAsync(CreateTestPage(new Image { AutomationId = TargetAutomationId, Source = ImageSource.FromFile("oasis.jpg") }));
-
-			var buttonLabel = new Button { Text = "Label" };
-			buttonLabel.Clicked +=
-				(sender, args) =>
-					PushAsync(
-						CreateTestPage(new Label
-						{
-							AutomationId = TargetAutomationId,
-							LineBreakMode = LineBreakMode.WordWrap,
-							Text =
-								"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-						}));
-
-			layout.Children.Add(buttonImage);
-			layout.Children.Add(buttonLabel);
+			layout.Children.Add(MenuButton("Image", () => new Image { Source = ImageSource.FromFile("oasis.jpg") }));
+			layout.Children.Add(MenuButton("Frame", () => new Frame { BackgroundColor = Color.DarkGoldenrod }));
+			layout.Children.Add(MenuButton("Entry", () => new Entry()));
+			layout.Children.Add(MenuButton("Editor", () => new Editor()));
+			layout.Children.Add(MenuButton("Button", () => new Button { Text = "Test" }));
+			layout.Children.Add(MenuButton("Label", () => new Label
+			{
+				LineBreakMode = LineBreakMode.WordWrap,
+				Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+			}));
 
 			return new ContentPage { Content = layout };
 		}
