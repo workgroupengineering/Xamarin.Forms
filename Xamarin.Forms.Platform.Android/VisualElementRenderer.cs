@@ -116,7 +116,9 @@ namespace Xamarin.Forms.Platform.Android
 				return handled;
 			}
 
-			return _gestureDetector.Value.OnTouchEvent(e) || handled;
+			handled = handled || _gestureDetector.Value.OnTouchEvent(e) || !Element.InputTransparent;
+
+			return handled;
 		}
 
 		VisualElement IVisualElementRenderer.Element => Element;
