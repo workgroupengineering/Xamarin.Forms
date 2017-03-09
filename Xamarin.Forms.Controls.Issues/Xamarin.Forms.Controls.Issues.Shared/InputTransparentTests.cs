@@ -51,6 +51,13 @@ namespace Xamarin.Forms.Controls.Issues
 			// Tap the control
 			RunningApp.TapCoordinates(target.CenterX, target.CenterY);
 
+			if(menuItem == nameof(DatePicker) || menuItem == nameof(TimePicker))
+			{
+				// These controls show a pop-up which we have to cancel out of before we can continue
+				RunningApp.WaitForElement(q => q.Marked("Cancel"));
+				RunningApp.Tap(q => q.Marked("Cancel"));
+			}
+
 			// Since InputTransparent is set to false, the start label should not have changed
 			RunningApp.WaitForElement(q => q.Marked("Start"));
 
