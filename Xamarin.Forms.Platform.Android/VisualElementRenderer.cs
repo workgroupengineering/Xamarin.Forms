@@ -93,7 +93,7 @@ namespace Xamarin.Forms.Platform.Android
 		public override bool OnInterceptTouchEvent(MotionEvent ev)
 		{
 			if (Element.InputTransparent && Element.IsEnabled)
-				return false;
+				return true;
 
 			return base.OnInterceptTouchEvent(ev);
 		}
@@ -192,8 +192,6 @@ namespace Xamarin.Forms.Platform.Android
 				SetOnTouchListener(this);
 				SoundEffectsEnabled = false;
 			}
-
-			UpdateInputTransparent();
 
 			// must be updated AFTER SetOnClickListener is called
 			// SetOnClickListener implicitly calls Clickable = true
@@ -307,8 +305,6 @@ namespace Xamarin.Forms.Platform.Android
 		{
 			if (e.PropertyName == VisualElement.BackgroundColorProperty.PropertyName)
 				UpdateBackgroundColor();
-			else if (e.PropertyName == VisualElement.InputTransparentProperty.PropertyName)
-				UpdateInputTransparent();
 			else if (e.PropertyName == Accessibility.HintProperty.PropertyName)
 				SetContentDescription();
 			else if (e.PropertyName == Accessibility.NameProperty.PropertyName)
@@ -414,11 +410,6 @@ namespace Xamarin.Forms.Platform.Android
 		protected virtual void UpdateBackgroundColor()
 		{
 			SetBackgroundColor(Element.BackgroundColor.ToAndroid());
-		}
-
-		protected virtual void UpdateInputTransparent()
-		{
-			InputTransparent = Element.InputTransparent;
 		}
 
 		internal virtual void SendVisualElementInitialized(VisualElement element, AView nativeView)

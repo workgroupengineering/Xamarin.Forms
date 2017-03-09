@@ -10,8 +10,6 @@ namespace Xamarin.Forms.Platform.Android
 	{
 		DescendantFocusToggler _descendantFocusToggler;
 
-		internal bool InputTransparent { get; set; }
-
 		internal EditorEditText(Context context) : base(context)
 		{
 		}
@@ -36,16 +34,6 @@ namespace Xamarin.Forms.Platform.Android
 		public override bool RequestFocus(FocusSearchDirection direction, Rect previouslyFocusedRect)
 		{
 			return (this as IDescendantFocusToggler).RequestFocus(this, () => base.RequestFocus(direction, previouslyFocusedRect));
-		}
-
-		public override bool OnTouchEvent(MotionEvent e)
-		{
-			if (InputTransparent)
-			{
-				return false;
-			}
-
-			return base.OnTouchEvent(e);
 		}
 
 		internal event EventHandler OnBackKeyboardPressed;

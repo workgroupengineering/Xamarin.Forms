@@ -89,16 +89,6 @@ namespace Xamarin.Forms.Platform.Android
 			base.OnElementPropertyChanged(sender, e);
 		}
 
-		protected override void UpdateInputTransparent()
-		{
-			base.UpdateInputTransparent();
-
-			if (Control != null)
-			{
-				Control.InputTransparent = Element.InputTransparent;
-			}
-		}
-
 		protected virtual NumberKeyListener GetDigitsKeyListener(InputTypes inputTypes)
 		{
 			// Override this in a custom renderer to use a different NumberKeyListener 

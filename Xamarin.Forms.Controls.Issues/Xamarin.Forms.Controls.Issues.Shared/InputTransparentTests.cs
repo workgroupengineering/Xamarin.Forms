@@ -28,8 +28,18 @@ namespace Xamarin.Forms.Controls.Issues
 		[Test, TestCaseSource(nameof(TestCases))]
 		public void VerifyInputTransparent(string menuItem)
 		{
-			RunningApp.WaitForElement(q => q.Marked(menuItem));
-			RunningApp.Tap(q => q.Marked(menuItem));
+			var results = RunningApp.WaitForElement(q => q.Marked(menuItem));
+
+			if(results.Length > 1)
+			{
+				var rect = results.First(r => r.Class.Contains("Button")).Rect;
+
+				RunningApp.TapCoordinates( rect.CenterX, rect.CenterY );
+			}
+			else
+			{
+				RunningApp.Tap(q => q.Marked(menuItem));
+			}
 
 			// Find the start label
 			RunningApp.WaitForElement(q => q.Marked("Start"));
@@ -115,7 +125,8 @@ namespace Xamarin.Forms.Controls.Issues
 		{
 			get
 			{
-				return (BuildMenu().Content as Layout).InternalChildren.Select(view => (view as Button).Text);
+				return (BuildMenu().Content as Layout).InternalChildren.SelectMany(
+					element => (element as Layout).InternalChildren.Select(view => (view as Button).Text));
 			}
 		}
 
@@ -126,25 +137,38 @@ namespace Xamarin.Forms.Controls.Issues
 				return _menu;
 			}
 
-			var layout = new StackLayout();
+			var layout = new Grid
+			{
+				VerticalOptions = LayoutOptions.Fill, HorizontalOptions = LayoutOptions.Fill,
+				ColumnDefinitions = new ColumnDefinitionCollection { new ColumnDefinition(), new ColumnDefinition() }
+			};
 
-			layout.Children.Add(MenuButton(nameof(Image), () => new Image { Source = ImageSource.FromFile("oasis.jpg") }));
-			layout.Children.Add(MenuButton(nameof(Frame), () => new Frame { BackgroundColor = Color.DarkGoldenrod }));
-			layout.Children.Add(MenuButton(nameof(Entry), () => new Entry()));
-			layout.Children.Add(MenuButton(nameof(Editor), () => new Editor()));
-			layout.Children.Add(MenuButton(nameof(Button), () => new Button { Text = "Test" }));
-			layout.Children.Add(MenuButton(nameof(Label), () => new Label
+			var col1 = new StackLayout();
+			layout.Children.Add(col1);
+			Grid.SetColumn(col1, 0);
+
+			var col2 = new StackLayout();
+			layout.Children.Add(col2);
+			Grid.SetColumn(col2, 1);
+
+			col1.Children.Add(MenuButton(nameof(Image), () => new Image { Source = ImageSource.FromFile("oasis.jpg") }));
+			col1.Children.Add(MenuButton(nameof(Frame), () => new Frame { BackgroundColor = Color.DarkGoldenrod }));
+			col1.Children.Add(MenuButton(nameof(Entry), () => new Entry()));
+			col1.Children.Add(MenuButton(nameof(Editor), () => new Editor()));
+			col1.Children.Add(MenuButton(nameof(Button), () => new Button { Text = "Test" }));
+			col1.Children.Add(MenuButton(nameof(Label), () => new Label
 			{
 				LineBreakMode = LineBreakMode.WordWrap,
 				Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 			}));
-			layout.Children.Add(MenuButton(nameof(SearchBar), () => new SearchBar()));
-			layout.Children.Add(MenuButton(nameof(DatePicker), () => new DatePicker()));
-			layout.Children.Add(MenuButton(nameof(TimePicker), () => new TimePicker()));
-			layout.Children.Add(MenuButton(nameof(Slider), () => new Switch()));
-			layout.Children.Add(MenuButton(nameof(Switch), () => new Slider()));
-			layout.Children.Add(MenuButton(nameof(Stepper), () => new Stepper()));
-			layout.Children.Add(MenuButton(nameof(BoxView), () => new BoxView { BackgroundColor = Color.DarkMagenta, WidthRequest = 100, HeightRequest = 100 }));
+			col1.Children.Add(MenuButton(nameof(SearchBar), () => new SearchBar()));
+
+			col2.Children.Add(MenuButton(nameof(DatePicker), () => new DatePicker()));
+			col2.Children.Add(MenuButton(nameof(TimePicker), () => new TimePicker()));
+			col2.Children.Add(MenuButton(nameof(Slider), () => new Slider()));
+			col2.Children.Add(MenuButton(nameof(Switch), () => new Switch()));
+			col2.Children.Add(MenuButton(nameof(Stepper), () => new Stepper()));
+			col2.Children.Add(MenuButton(nameof(BoxView), () => new BoxView { BackgroundColor = Color.DarkMagenta, WidthRequest = 100, HeightRequest = 100 }));
 
 			return new ContentPage { Content = layout };
 		}
