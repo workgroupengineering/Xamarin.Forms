@@ -48,7 +48,7 @@ namespace Xamarin.Forms.Controls.Issues
 			RunningApp.WaitForElement(q => q.Marked("Start"));
 
 			// Switch to InputTransparent == true
-			RunningApp.Tap(q => q.Marked("Toggle InputTransparent"));
+			RunningApp.Tap(q => q.Marked("Toggle"));
 
 			// Tap the control
 			RunningApp.TapCoordinates(target.CenterX, target.CenterY);
@@ -87,8 +87,12 @@ namespace Xamarin.Forms.Controls.Issues
 			view.InputTransparent = false;
 			abs.Children.Add(view, new Rectangle(.5, .5, .5, .5), AbsoluteLayoutFlags.All);
 
-			var toggleButton = new Button { Text = "Toggle InputTransparent" };
-			toggleButton.Clicked += (sender, args) => view.InputTransparent = !view.InputTransparent;
+			var toggleButton = new Button { AutomationId = "Toggle", Text = $"Toggle InputTransparent (now {view.InputTransparent})" };
+			toggleButton.Clicked += (sender, args) =>
+			{
+				view.InputTransparent = !view.InputTransparent;
+				toggleButton.Text = $"Toggle InputTransparent (now {view.InputTransparent})";
+			};
 
 			layout.Children.Add(toggleButton);
 			layout.Children.Add(abs);

@@ -69,6 +69,17 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 			}
 		}
 
+		public override bool OnTouchEvent(MotionEvent e)
+		{
+			// TODO hartez 2017/03/08 18:04:48 If this works, make sure to cache inputtransparent so we don't have to check the element	
+			if (Element.InputTransparent)
+			{
+				return false;
+			}
+
+			return base.OnTouchEvent(e);
+		}
+
 		void IOnClickListener.OnClick(AView v)
 		{
 			_tapGestureHandler.OnSingleClick();
@@ -83,7 +94,10 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 					ScaleGestureDetectorCompat.SetQuickScaleEnabled(_scaleDetector.Value, true);
 				handled = _scaleDetector.Value.OnTouchEvent(e);
 			}
-			return _gestureDetector.Value.OnTouchEvent(e) || handled;
+			
+			handled = handled || _gestureDetector.Value.OnTouchEvent(e) || !Element.InputTransparent;
+
+			return handled;
 		}
 
 		VisualElement IVisualElementRenderer.Element => Element;
