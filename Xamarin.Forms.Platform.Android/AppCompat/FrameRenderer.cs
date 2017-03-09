@@ -31,6 +31,8 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 		VisualElementTracker _visualElementTracker;
 		NotifyCollectionChangedEventHandler _collectionChangeHandler;
 
+		bool _inputTransparent;
+
 		public FrameRenderer() : base(Forms.Context)
 		{
 			_tapGestureHandler = new TapGestureHandler(() => Element);
@@ -71,8 +73,7 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 
 		public override bool OnTouchEvent(MotionEvent e)
 		{
-			// TODO hartez 2017/03/08 18:04:48 If this works, make sure to cache inputtransparent so we don't have to check the element	
-			if (Element.InputTransparent)
+			if (_inputTransparent)
 			{
 				return false;
 			}
@@ -209,6 +210,7 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 				UpdateShadow();
 				UpdateBackgroundColor();
 				UpdateCornerRadius();
+				UpdateInputTransparent();
 				SubscribeGestureRecognizers(e.NewElement);
 			}
 		}
@@ -242,6 +244,13 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 				UpdateBackgroundColor();
 			else if (e.PropertyName == Frame.CornerRadiusProperty.PropertyName)
 				UpdateCornerRadius();
+			else if (e.PropertyName == VisualElement.InputTransparentProperty.PropertyName)
+				UpdateInputTransparent();
+		}
+
+		void UpdateInputTransparent()
+		{
+			_inputTransparent = Element.InputTransparent;
 		}
 
 		void SubscribeGestureRecognizers(VisualElement element)
