@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Xamarin.Forms.Platform;
 
@@ -64,7 +65,8 @@ namespace Xamarin.Forms.Internals
 			return _platformConfigurationRegistry.Value.On<T>();
 		}
 
-		void INavigationMenuController.SendTargetSelected(Page target)
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void SendTargetSelected(Page target)
 		{
 			Navigation.PushAsync(target);
 		}
