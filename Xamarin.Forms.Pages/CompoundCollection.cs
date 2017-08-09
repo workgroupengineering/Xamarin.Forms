@@ -205,6 +205,7 @@ namespace Xamarin.Forms.Pages
 			if (observable != null)
 				observable.CollectionChanged -= self.OnMainCollectionChanged;
 			observable = args.NewValue as INotifyCollectionChanged;
+
 			if (observable != null)
 				observable.CollectionChanged += self.OnMainCollectionChanged;
 			self.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
