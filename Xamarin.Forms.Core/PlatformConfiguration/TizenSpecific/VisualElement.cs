@@ -255,7 +255,7 @@ namespace Xamarin.Forms.PlatformConfiguration.TizenSpecific
 			return config;
 		}
 
-		static void OnNextFocusDirectionPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+		static void OnNextFocusDirectionPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
 			bindable.SetValue(NextFocusDirectionProperty, FocusDirection.None);
 		}

@@ -30,7 +30,7 @@ namespace Xamarin.Forms.Controls.Issues
 			view.SetValue(AttachBehaviorProperty, value);
 		}
 
-		static void OnAttachBehaviorChanged(BindableObject view, object oldValue, object newValue)
+		static void OnAttachBehaviorChanged(BindableObject view, BindablePropertyChangedEventArgs args)
 		{
 			var entry = view as Entry;
 			if (entry == null)
@@ -38,7 +38,7 @@ namespace Xamarin.Forms.Controls.Issues
 				return;
 			}
 
-			bool attachBehavior = (bool)newValue;
+			bool attachBehavior = (bool)args.NewValue;
 			if (attachBehavior)
 			{
 				entry.Behaviors.Add(new Bugzilla41054NumericValidationBehavior());

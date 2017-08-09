@@ -18,14 +18,16 @@ namespace Xamarin.Forms
 		public static readonly BindableProperty ColumnSpanProperty = BindableProperty.CreateAttached("ColumnSpan", typeof(int), typeof(Grid), 1, validateValue: (bindable, value) => (int)value >= 1);
 
 		public static readonly BindableProperty RowSpacingProperty = BindableProperty.Create("RowSpacing", typeof(double), typeof(Grid), 6d,
-			propertyChanged: (bindable, oldValue, newValue) => ((Grid)bindable).InvalidateMeasureInternal(InvalidationTrigger.MeasureChanged));
+			propertyChanged: (bindable, arg) => ((Grid)bindable).InvalidateMeasureInternal(InvalidationTrigger.MeasureChanged));
 
 		public static readonly BindableProperty ColumnSpacingProperty = BindableProperty.Create("ColumnSpacing", typeof(double), typeof(Grid), 6d,
-			propertyChanged: (bindable, oldValue, newValue) => ((Grid)bindable).InvalidateMeasureInternal(InvalidationTrigger.MeasureChanged));
+			propertyChanged: (bindable, arg) => ((Grid)bindable).InvalidateMeasureInternal(InvalidationTrigger.MeasureChanged));
 
 		public static readonly BindableProperty ColumnDefinitionsProperty = BindableProperty.Create("ColumnDefinitions", typeof(ColumnDefinitionCollection), typeof(Grid), null,
-			validateValue: (bindable, value) => value != null, propertyChanged: (bindable, oldvalue, newvalue) =>
+			validateValue: (bindable, value) => value != null, propertyChanged: (bindable, arg) =>
 			{
+				var oldvalue = arg.OldValue;
+				var newvalue = arg.NewValue;
 				if (oldvalue != null)
 					((ColumnDefinitionCollection)oldvalue).ItemSizeChanged -= ((Grid)bindable).OnDefinitionChanged;
 				if (newvalue != null)
@@ -38,8 +40,10 @@ namespace Xamarin.Forms
 			});
 
 		public static readonly BindableProperty RowDefinitionsProperty = BindableProperty.Create("RowDefinitions", typeof(RowDefinitionCollection), typeof(Grid), null,
-			validateValue: (bindable, value) => value != null, propertyChanged: (bindable, oldvalue, newvalue) =>
+			validateValue: (bindable, value) => value != null, propertyChanged: (bindable, arg) =>
 			{
+				var oldvalue = arg.OldValue;
+				var newvalue = arg.NewValue;
 				if (oldvalue != null)
 					((RowDefinitionCollection)oldvalue).ItemSizeChanged -= ((Grid)bindable).OnDefinitionChanged;
 				if (newvalue != null)
@@ -141,10 +145,10 @@ namespace Xamarin.Forms
 			view.PropertyChanged += OnItemPropertyChanged;
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
 			UpdateInheritedBindingContexts();
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 		}
 
 		protected override void OnRemoved(View view)

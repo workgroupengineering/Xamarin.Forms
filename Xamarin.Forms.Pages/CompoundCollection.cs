@@ -198,13 +198,13 @@ namespace Xamarin.Forms.Pages
 			}
 		}
 
-		static void OnMainListPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnMainListPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
 			var self = (CompoundCollection)bindable;
-			var observable = oldValue as INotifyCollectionChanged;
+			var observable = args.OldValue as INotifyCollectionChanged;
 			if (observable != null)
 				observable.CollectionChanged -= self.OnMainCollectionChanged;
-			observable = newValue as INotifyCollectionChanged;
+			observable = args.NewValue as INotifyCollectionChanged;
 			if (observable != null)
 				observable.CollectionChanged += self.OnMainCollectionChanged;
 			self.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));

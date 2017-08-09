@@ -52,12 +52,12 @@ namespace Xamarin.Forms
 			set { SetValue(SourceProperty, value); }
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
 			if (Source != null)
 				SetInheritedBindingContext(Source, BindingContext);
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 		}
 
 		[Obsolete("OnSizeRequest is obsolete as of version 2.2.0. Please use OnMeasure instead.")]
@@ -124,9 +124,9 @@ namespace Xamarin.Forms
 			InvalidateMeasureInternal(InvalidationTrigger.MeasureChanged);
 		}
 
-		static void OnSourcePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+		static void OnSourcePropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
-			((Image)bindable).OnSourcePropertyChanged((ImageSource)oldvalue, (ImageSource)newvalue);
+			((Image)bindable).OnSourcePropertyChanged((ImageSource)arg.OldValue, (ImageSource)arg.NewValue);
 		}
 
 		void OnSourcePropertyChanged(ImageSource oldvalue, ImageSource newvalue)

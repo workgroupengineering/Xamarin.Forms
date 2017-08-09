@@ -64,9 +64,9 @@ namespace Xamarin.Forms.Controls.Issues
 				View = stackLayout;
 			}
 
-			protected override void OnBindingContextChanged()
+			protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs args)
 			{
-				base.OnBindingContextChanged();
+				base.OnBindingContextChanged(args);
 
 				var item = BindingContext as ItemViewModel;
 

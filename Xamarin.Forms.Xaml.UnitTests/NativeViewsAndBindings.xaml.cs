@@ -31,10 +31,10 @@ namespace Xamarin.Forms.Xaml.UnitTests
 			nativeView.TransferbindablePropertiesToWrapper(this);
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs args)
 		{
 			NativeView.SetBindingContext(BindingContext, nv => nv.SubViews);
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(args);
 		}
 	}
 
@@ -53,10 +53,10 @@ namespace Xamarin.Forms.Xaml.UnitTests
 			nativeView.TransferbindablePropertiesToWrapper(this);
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs args)
 		{
 			NativeView.SetBindingContext(BindingContext, nv => nv.SubViews);
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(args);
 		}
 	}
 

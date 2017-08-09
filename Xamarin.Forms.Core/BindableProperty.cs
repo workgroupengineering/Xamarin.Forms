@@ -8,11 +8,13 @@ using Xamarin.Forms.Xaml;
 
 namespace Xamarin.Forms
 {
+	public delegate void BindingPropertyChangedEventHandler(BindableObject bindable, BindablePropertyChangedEventArgs arg);
+
 	[DebuggerDisplay("{PropertyName}")]
 	[TypeConverter(typeof(BindablePropertyConverter))]
 	public sealed class BindableProperty
 	{
-		public delegate void BindingPropertyChangedDelegate(BindableObject bindable, object oldValue, object newValue);
+		
 
 		public delegate void BindingPropertyChangedDelegate<in TPropertyType>(BindableObject bindable, TPropertyType oldValue, TPropertyType newValue);
 
@@ -55,7 +57,7 @@ namespace Xamarin.Forms
 		};
 
 		BindableProperty(string propertyName, Type returnType, Type declaringType, object defaultValue, BindingMode defaultBindingMode = BindingMode.OneWay,
-								 ValidateValueDelegate validateValue = null, BindingPropertyChangedDelegate propertyChanged = null, BindingPropertyChangingDelegate propertyChanging = null,
+								 ValidateValueDelegate validateValue = null, BindingPropertyChangedEventHandler propertyChanged = null, BindingPropertyChangingDelegate propertyChanging = null,
 								 CoerceValueDelegate coerceValue = null, BindablePropertyBindingChanging bindingChanging = null, bool isReadOnly = false, CreateDefaultValueDelegate defaultValueCreator = null)
 		{
 			if (propertyName == null)
@@ -108,7 +110,7 @@ namespace Xamarin.Forms
 
 		internal CreateDefaultValueDelegate DefaultValueCreator { get; }
 
-		internal BindingPropertyChangedDelegate PropertyChanged { get; private set; }
+		internal BindingPropertyChangedEventHandler PropertyChanged { get; private set; }
 
 		internal BindingPropertyChangingDelegate PropertyChanging { get; private set; }
 
@@ -126,7 +128,7 @@ namespace Xamarin.Forms
 		}
 
 		public static BindableProperty Create(string propertyName, Type returnType, Type declaringType, object defaultValue = null, BindingMode defaultBindingMode = BindingMode.OneWay,
-											  ValidateValueDelegate validateValue = null, BindingPropertyChangedDelegate propertyChanged = null, BindingPropertyChangingDelegate propertyChanging = null,
+											  ValidateValueDelegate validateValue = null, BindingPropertyChangedEventHandler propertyChanged = null, BindingPropertyChangingDelegate propertyChanging = null,
 											  CoerceValueDelegate coerceValue = null, CreateDefaultValueDelegate defaultValueCreator = null)
 		{
 			return new BindableProperty(propertyName, returnType, declaringType, defaultValue, defaultBindingMode, validateValue, propertyChanged, propertyChanging, coerceValue,
@@ -144,7 +146,7 @@ namespace Xamarin.Forms
 		}
 
 		public static BindableProperty CreateAttached(string propertyName, Type returnType, Type declaringType, object defaultValue, BindingMode defaultBindingMode = BindingMode.OneWay,
-													  ValidateValueDelegate validateValue = null, BindingPropertyChangedDelegate propertyChanged = null, BindingPropertyChangingDelegate propertyChanging = null,
+													  ValidateValueDelegate validateValue = null, BindingPropertyChangedEventHandler propertyChanged = null, BindingPropertyChangingDelegate propertyChanging = null,
 													  CoerceValueDelegate coerceValue = null, CreateDefaultValueDelegate defaultValueCreator = null)
 		{
 			return CreateAttached(propertyName, returnType, declaringType, defaultValue, defaultBindingMode, validateValue, propertyChanged, propertyChanging, coerceValue, null, false, defaultValueCreator);
@@ -163,7 +165,7 @@ namespace Xamarin.Forms
 		}
 
 		public static BindablePropertyKey CreateAttachedReadOnly(string propertyName, Type returnType, Type declaringType, object defaultValue, BindingMode defaultBindingMode = BindingMode.OneWayToSource,
-																 ValidateValueDelegate validateValue = null, BindingPropertyChangedDelegate propertyChanged = null, BindingPropertyChangingDelegate propertyChanging = null,
+																 ValidateValueDelegate validateValue = null, BindingPropertyChangedEventHandler propertyChanged = null, BindingPropertyChangingDelegate propertyChanging = null,
 																 CoerceValueDelegate coerceValue = null, CreateDefaultValueDelegate defaultValueCreator = null)
 		{
 			return
@@ -181,7 +183,7 @@ namespace Xamarin.Forms
 		}
 
 		public static BindablePropertyKey CreateReadOnly(string propertyName, Type returnType, Type declaringType, object defaultValue, BindingMode defaultBindingMode = BindingMode.OneWayToSource,
-														 ValidateValueDelegate validateValue = null, BindingPropertyChangedDelegate propertyChanged = null, BindingPropertyChangingDelegate propertyChanging = null,
+														 ValidateValueDelegate validateValue = null, BindingPropertyChangedEventHandler propertyChanged = null, BindingPropertyChangingDelegate propertyChanging = null,
 														 CoerceValueDelegate coerceValue = null, CreateDefaultValueDelegate defaultValueCreator = null)
 		{
 			return
@@ -211,14 +213,14 @@ namespace Xamarin.Forms
 			var property = (PropertyInfo)member.Member;
 
 			ValidateValueDelegate untypedValidateValue = null;
-			BindingPropertyChangedDelegate untypedBindingPropertyChanged = null;
+			BindingPropertyChangedEventHandler untypedBindingPropertyChanged = null;
 			BindingPropertyChangingDelegate untypedBindingPropertyChanging = null;
 			CoerceValueDelegate untypedCoerceValue = null;
 			CreateDefaultValueDelegate untypedDefaultValueCreator = null;
 			if (validateValue != null)
 				untypedValidateValue = (bindable, value) => validateValue(bindable, (TPropertyType)value);
 			if (propertyChanged != null)
-				untypedBindingPropertyChanged = (bindable, oldValue, newValue) => propertyChanged(bindable, (TPropertyType)oldValue, (TPropertyType)newValue);
+				untypedBindingPropertyChanged = (bindable, arg) => propertyChanged(bindable, (TPropertyType)arg.OldValue, (TPropertyType)arg.NewValue);
 			if (propertyChanging != null)
 				untypedBindingPropertyChanging = (bindable, oldValue, newValue) => propertyChanging(bindable, (TPropertyType)oldValue, (TPropertyType)newValue);
 			if (coerceValue != null)
@@ -231,7 +233,7 @@ namespace Xamarin.Forms
 		}
 
 		internal static BindableProperty Create(string propertyName, Type returnType, Type declaringType, object defaultValue, BindingMode defaultBindingMode, ValidateValueDelegate validateValue,
-												BindingPropertyChangedDelegate propertyChanged, BindingPropertyChangingDelegate propertyChanging, CoerceValueDelegate coerceValue, BindablePropertyBindingChanging bindingChanging,
+												BindingPropertyChangedEventHandler propertyChanged, BindingPropertyChangingDelegate propertyChanging, CoerceValueDelegate coerceValue, BindablePropertyBindingChanging bindingChanging,
 												CreateDefaultValueDelegate defaultValueCreator = null)
 		{
 			return new BindableProperty(propertyName, returnType, declaringType, defaultValue, defaultBindingMode, validateValue, propertyChanged, propertyChanging, coerceValue, bindingChanging,
@@ -264,14 +266,14 @@ namespace Xamarin.Forms
 			string propertyname = method.Name.Substring(3);
 
 			ValidateValueDelegate untypedValidateValue = null;
-			BindingPropertyChangedDelegate untypedBindingPropertyChanged = null;
+			BindingPropertyChangedEventHandler untypedBindingPropertyChanged = null;
 			BindingPropertyChangingDelegate untypedBindingPropertyChanging = null;
 			CoerceValueDelegate untypedCoerceValue = null;
 			CreateDefaultValueDelegate untypedDefaultValueCreator = null;
 			if (validateValue != null)
 				untypedValidateValue = (bindable, value) => validateValue(bindable, (TPropertyType)value);
 			if (propertyChanged != null)
-				untypedBindingPropertyChanged = (bindable, oldValue, newValue) => propertyChanged(bindable, (TPropertyType)oldValue, (TPropertyType)newValue);
+				untypedBindingPropertyChanged = (bindable, arg) => propertyChanged(bindable, (TPropertyType)arg.OldValue, (TPropertyType)arg.NewValue);
 			if (propertyChanging != null)
 				untypedBindingPropertyChanging = (bindable, oldValue, newValue) => propertyChanging(bindable, (TPropertyType)oldValue, (TPropertyType)newValue);
 			if (coerceValue != null)
@@ -284,7 +286,7 @@ namespace Xamarin.Forms
 		}
 
 		internal static BindableProperty CreateAttached(string propertyName, Type returnType, Type declaringType, object defaultValue, BindingMode defaultBindingMode, ValidateValueDelegate validateValue,
-														BindingPropertyChangedDelegate propertyChanged, BindingPropertyChangingDelegate propertyChanging, CoerceValueDelegate coerceValue, BindablePropertyBindingChanging bindingChanging,
+														BindingPropertyChangedEventHandler propertyChanged, BindingPropertyChangingDelegate propertyChanging, CoerceValueDelegate coerceValue, BindablePropertyBindingChanging bindingChanging,
 														bool isReadOnly, CreateDefaultValueDelegate defaultValueCreator = null)
 		{
 			return new BindableProperty(propertyName, returnType, declaringType, defaultValue, defaultBindingMode, validateValue, propertyChanged, propertyChanging, coerceValue, bindingChanging, isReadOnly,

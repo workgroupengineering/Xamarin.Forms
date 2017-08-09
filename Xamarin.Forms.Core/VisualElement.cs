@@ -51,7 +51,7 @@ namespace Xamarin.Forms
 		public static readonly BindableProperty ScaleProperty = BindableProperty.Create("Scale", typeof(double), typeof(VisualElement), 1d);
 
 		public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create("IsVisible", typeof(bool), typeof(VisualElement), true,
-			propertyChanged: (bindable, oldvalue, newvalue) => ((VisualElement)bindable).OnIsVisibleChanged((bool)oldvalue, (bool)newvalue));
+			propertyChanged: (bindable, arg) => ((VisualElement)bindable).OnIsVisibleChanged((bool)arg.OldValue, (bool)arg.NewValue));
 
 		public static readonly BindableProperty OpacityProperty = BindableProperty.Create("Opacity", typeof(double), typeof(VisualElement), 1d, coerceValue: (bindable, value) => ((double)value).Clamp(0, 1));
 
@@ -78,7 +78,7 @@ namespace Xamarin.Forms
 		public static readonly BindableProperty TriggersProperty = TriggersPropertyKey.BindableProperty;
 
 		public static readonly BindableProperty StyleProperty = BindableProperty.Create("Style", typeof(Style), typeof(VisualElement), default(Style),
-			propertyChanged: (bindable, oldvalue, newvalue) => ((VisualElement)bindable)._mergedStyle.Style = (Style)newvalue);
+			propertyChanged: (bindable, arg) => ((VisualElement)bindable)._mergedStyle.Style = (Style)arg.NewValue);
 
 		public static readonly BindableProperty WidthRequestProperty = BindableProperty.Create("WidthRequest", typeof(double), typeof(VisualElement), -1d, propertyChanged: OnRequestChanged);
 
@@ -779,21 +779,21 @@ namespace Xamarin.Forms
 				focus(this, new FocusEventArgs(this, true));
 		}
 
-		static void FlowDirectionChanged(BindableObject bindable, object oldValue, object newValue)
+		static void FlowDirectionChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
 			var self = bindable as IFlowDirectionController;
 
-			if (self.EffectiveFlowDirection.IsExplicit() && oldValue == newValue)
+			if (self.EffectiveFlowDirection.IsExplicit() && args.OldValue == args.NewValue)
 				return;
 
-			var newFlowDirection = (FlowDirection)newValue;
+			var newFlowDirection = (FlowDirection)args.NewValue;
 
 			self.EffectiveFlowDirection = newFlowDirection.ToEffectiveFlowDirection(isExplicit: true);
 
 			self.NotifyFlowDirectionChanged();
 		}
 
-		static void OnIsEnabledPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnIsEnabledPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
 			var element = (VisualElement)bindable;
 
@@ -802,14 +802,14 @@ namespace Xamarin.Forms
 				return;
 			}
 
-			var isEnabled = (bool)newValue;
+			var isEnabled = (bool)args.NewValue;
 
 			VisualStateManager.GoToState(element, isEnabled 
 				? VisualStateManager.CommonStates.Normal 
 				: VisualStateManager.CommonStates.Disabled);
 		}
 
-		static void OnIsFocusedPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+		static void OnIsFocusedPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var element = (VisualElement)bindable;
 
@@ -818,7 +818,7 @@ namespace Xamarin.Forms
 				return;
 			}
 
-			var isFocused = (bool)newvalue;
+			var isFocused = (bool)arg.NewValue;
 			if (isFocused)
 			{
 				element.OnFocused();
@@ -833,7 +833,7 @@ namespace Xamarin.Forms
 				: VisualStateManager.CommonStates.Focused);
 		}
 
-		static void OnRequestChanged(BindableObject bindable, object oldvalue, object newvalue)
+		static void OnRequestChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var constraint = LayoutConstraint.None;
 			var element = (VisualElement)bindable;

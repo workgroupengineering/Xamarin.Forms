@@ -93,9 +93,9 @@ namespace Xamarin.Forms
 			set { SetValue(FooterTemplateProperty, value); }
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 
 			object bc = BindingContext;
 
@@ -455,16 +455,16 @@ namespace Xamarin.Forms
 			RefreshAllowed = RefreshCommand.CanExecute(null);
 		}
 
-		static void OnFooterChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnFooterChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var lv = (ListView)bindable;
-			lv.OnHeaderOrFooterChanged(ref lv._footerElement, "FooterElement", newValue, lv.FooterTemplate, false);
+			lv.OnHeaderOrFooterChanged(ref lv._footerElement, "FooterElement", arg.NewValue, lv.FooterTemplate, false);
 		}
 
-		static void OnFooterTemplateChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnFooterTemplateChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var lv = (ListView)bindable;
-			lv.OnHeaderOrFooterChanged(ref lv._footerElement, "FooterElement", lv.Footer, (DataTemplate)newValue, true);
+			lv.OnHeaderOrFooterChanged(ref lv._footerElement, "FooterElement", lv.Footer, (DataTemplate)arg.NewValue, true);
 		}
 
 		static void OnGroupDisplayBindingChanged(BindableObject bindable, BindingBase oldValue, BindingBase newValue)
@@ -477,20 +477,20 @@ namespace Xamarin.Forms
 			}
 		}
 
-		static void OnGroupHeaderTemplateChanged(BindableObject bindable, object oldvalue, object newValue)
+		static void OnGroupHeaderTemplateChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var lv = (ListView)bindable;
-			if (newValue != null && lv.GroupDisplayBinding != null)
+			if (arg.NewValue != null && lv.GroupDisplayBinding != null)
 			{
 				lv.GroupDisplayBinding = null;
 				Debug.WriteLine("GroupHeaderTemplate and GroupDisplayBinding can not be set at the same time, setting GroupDisplayBinding to null");
 			}
 		}
 
-		static void OnHeaderChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnHeaderChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var lv = (ListView)bindable;
-			lv.OnHeaderOrFooterChanged(ref lv._headerElement, "HeaderElement", newValue, lv.HeaderTemplate, false);
+			lv.OnHeaderOrFooterChanged(ref lv._headerElement, "HeaderElement", arg.NewValue, lv.HeaderTemplate, false);
 		}
 
 		void OnHeaderOrFooterChanged(ref Element storage, string property, object dataObject, DataTemplate template, bool templateChanged)
@@ -535,17 +535,17 @@ namespace Xamarin.Forms
 			}
 		}
 
-		static void OnHeaderTemplateChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnHeaderTemplateChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var lv = (ListView)bindable;
-			lv.OnHeaderOrFooterChanged(ref lv._headerElement, "HeaderElement", lv.Header, (DataTemplate)newValue, true);
+			lv.OnHeaderOrFooterChanged(ref lv._headerElement, "HeaderElement", lv.Header, (DataTemplate)arg.NewValue, true);
 		}
 
-		static void OnRefreshCommandChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnRefreshCommandChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var lv = (ListView)bindable;
-			var oldCommand = (ICommand)oldValue;
-			var command = (ICommand)newValue;
+			var oldCommand = (ICommand)arg.OldValue;
+			var command = (ICommand)arg.NewValue;
 
 			lv.OnRefreshCommandChanged(oldCommand, command);
 		}
@@ -582,11 +582,11 @@ namespace Xamarin.Forms
 				handler(this, e);
 		}
 
-		static void OnSelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnSelectedItemChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var list = (ListView)bindable;
 			if (list.ItemSelected != null)
-				list.ItemSelected(list, new SelectedItemChangedEventArgs(newValue));
+				list.ItemSelected(list, new SelectedItemChangedEventArgs(arg.NewValue));
 		}
 
 		static bool ValidateHeaderFooterTemplate(BindableObject bindable, object value)

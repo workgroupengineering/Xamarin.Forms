@@ -6,7 +6,7 @@ namespace Xamarin.Forms
 	public class TemplatedView : Layout, IControlTemplated
 	{
 		public static readonly BindableProperty ControlTemplateProperty = BindableProperty.Create(nameof(ControlTemplate), typeof(ControlTemplate), typeof(TemplatedView), null,
-			propertyChanged: TemplateUtilities.OnControlTemplateChanged);
+			propertyChanged: (bindable, arg) => TemplateUtilities.OnControlTemplateChanged(bindable, arg.OldValue ,arg.NewValue));
 
 		public ControlTemplate ControlTemplate
 		{

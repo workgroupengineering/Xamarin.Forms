@@ -99,9 +99,9 @@ namespace Xamarin.Forms
 			}
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 			if (Root != null)
 				SetInheritedBindingContext(Root, BindingContext);
 		}

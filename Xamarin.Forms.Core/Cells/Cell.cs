@@ -131,9 +131,9 @@ namespace Xamarin.Forms
 				handler(this, EventArgs.Empty);
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 
 			if (HasContextActions)
 			{
@@ -230,7 +230,7 @@ namespace Xamarin.Forms
 			_nextCallToForceUpdateSizeQueued = false;
 		}
 
-		static void OnIsEnabledPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+		static void OnIsEnabledPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			(bindable as Cell).OnPropertyChanged("HasContextActions");
 		}

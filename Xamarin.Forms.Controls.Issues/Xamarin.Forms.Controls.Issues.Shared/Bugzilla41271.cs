@@ -46,9 +46,9 @@ namespace Xamarin.Forms.Controls
 				};
 			}
 
-			protected override void OnBindingContextChanged()
+			protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs args)
 			{
-				base.OnBindingContextChanged();
+				base.OnBindingContextChanged(args);
 				var item = BindingContext as Person;
 				if (item != null)
 				{

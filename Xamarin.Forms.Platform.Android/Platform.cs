@@ -25,11 +25,11 @@ namespace Xamarin.Forms.Platform.Android
 		internal const string CloseContextActionsSignalName = "Xamarin.CloseContextActions";
 
 		internal static readonly BindableProperty RendererProperty = BindableProperty.CreateAttached("Renderer", typeof(IVisualElementRenderer), typeof(Platform), default(IVisualElementRenderer),
-			propertyChanged: (bindable, oldvalue, newvalue) =>
+			propertyChanged: (bindable, args) =>
 			{
 				var view = bindable as VisualElement;
 				if (view != null)
-					view.IsPlatformEnabled = newvalue != null;
+					view.IsPlatformEnabled = args.NewValue != null;
 			});
 
 		IMasterDetailPageController MasterDetailPageController => CurrentMasterDetailPage as IMasterDetailPageController;
@@ -342,11 +342,11 @@ namespace Xamarin.Forms.Platform.Android
 			UpdateActionBarUpImageColor();
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void  OnBindingContextChanged ( BindablePropertyChangedEventArgs args)
 		{
 			SetInheritedBindingContext(Page, BindingContext);
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(args);
 		}
 
 		internal static IVisualElementRenderer CreateRenderer(VisualElement element, FragmentManager fragmentManager, Context context)

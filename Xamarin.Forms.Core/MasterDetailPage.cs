@@ -219,7 +219,7 @@ namespace Xamarin.Forms
 			}
 		}
 
-		static void OnIsPresentedPropertyChanged(BindableObject sender, object oldValue, object newValue)
+		static void OnIsPresentedPropertyChanged(BindableObject sender, BindablePropertyChangedEventArgs arg)
 		{
 			var page = (MasterDetailPage)sender;
 			EventHandler handler = page.IsPresentedChanged;
@@ -234,7 +234,7 @@ namespace Xamarin.Forms
 				throw new InvalidOperationException(string.Format("Can't change IsPresented when setting {0}", page.MasterBehavior));
 		}
 
-		static void OnMasterBehaviorPropertyChanged(BindableObject sender, object oldValue, object newValue)
+		static void OnMasterBehaviorPropertyChanged(BindableObject sender, BindablePropertyChangedEventArgs arg)
 		{
 			var page = (MasterDetailPage)sender;
 			UpdateMasterBehavior(page);

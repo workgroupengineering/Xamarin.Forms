@@ -957,7 +957,7 @@ namespace Xamarin.Forms.Internals
 			OnProxyCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
-		static void OnListProxyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnListProxyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var til = (TemplatedItemsList<TView, TItem>)bindable;
 			til.OnPropertyChanged("ItemsSource");

@@ -38,13 +38,14 @@ namespace Xamarin.Forms
 				condition.TearDown(bindable);
 		}
 
-		void OnAggregatedStatePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		void OnAggregatedStatePropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
-			if ((bool)oldValue == (bool)newValue)
+			var oldValue = (bool)arg.OldValue;
+			var newValue = (bool)arg.NewValue;
+			if (oldValue == newValue)
 				return;
 
-			if (ConditionChanged != null)
-				ConditionChanged(bindable, (bool)oldValue, (bool)newValue);
+			ConditionChanged?.Invoke(bindable, oldValue, newValue);
 		}
 
 		void OnConditionChanged(BindableObject bindable, bool oldValue, bool newValue)

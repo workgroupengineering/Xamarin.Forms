@@ -4,12 +4,12 @@ namespace Xamarin.Forms
 {
 	public class SwitchCell : Cell
 	{
-		public static readonly BindableProperty OnProperty = BindableProperty.Create("On", typeof(bool), typeof(SwitchCell), false, propertyChanged: (obj, oldValue, newValue) =>
+		public static readonly BindableProperty OnProperty = BindableProperty.Create("On", typeof(bool), typeof(SwitchCell), false, propertyChanged: (obj, arg) =>
 		{
 			var switchCell = (SwitchCell)obj;
 			EventHandler<ToggledEventArgs> handler = switchCell.OnChanged;
 			if (handler != null)
-				handler(obj, new ToggledEventArgs((bool)newValue));
+				handler(obj, new ToggledEventArgs((bool)arg.NewValue));
 		}, defaultBindingMode: BindingMode.TwoWay);
 
 		public static readonly BindableProperty TextProperty = BindableProperty.Create("Text", typeof(string), typeof(SwitchCell), default(string));

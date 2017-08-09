@@ -14,7 +14,7 @@ namespace Xamarin.Forms
 		internal const string CacheName = "ImageLoaderCache";
 
 		public static readonly BindableProperty UriProperty = BindableProperty.Create("Uri", typeof(Uri), typeof(UriImageSource), default(Uri),
-			propertyChanged: (bindable, oldvalue, newvalue) => ((UriImageSource)bindable).OnUriChanged(), validateValue: (bindable, value) => value == null || ((Uri)value).IsAbsoluteUri);
+			propertyChanged: (bindable, arg) => ((UriImageSource)bindable).OnUriChanged(), validateValue: (bindable, value) => value == null || ((Uri)value).IsAbsoluteUri);
 
 		static readonly IIsolatedStorageFile Store = Device.PlatformServices.GetUserStoreForApplication();
 

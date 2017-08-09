@@ -15,7 +15,7 @@ namespace Xamarin.Forms
 		public static void SetIsHeadless(BindableObject bindable, bool value)
 			=> bindable.SetValue(IsHeadlessProperty, value);
 
-		static void OnIsHeadlessPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnIsHeadlessPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
 			var ve = bindable as IVisualElementController;
 			if (ve == null)

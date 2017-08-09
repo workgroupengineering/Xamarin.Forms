@@ -14,12 +14,12 @@ namespace Xamarin.Forms
 		public static readonly BindableProperty SearchCommandParameterProperty = BindableProperty.Create("SearchCommandParameter", typeof(object), typeof(SearchBar), null);
 
 		public static readonly BindableProperty TextProperty = BindableProperty.Create("Text", typeof(string), typeof(SearchBar), default(string), BindingMode.TwoWay,
-			propertyChanged: (bindable, oldValue, newValue) =>
+			propertyChanged: (bindable, arg) =>
 			{
 				var searchBar = (SearchBar)bindable;
 				EventHandler<TextChangedEventArgs> eh = searchBar.TextChanged;
 				if (eh != null)
-					eh(searchBar, new TextChangedEventArgs((string)oldValue, (string)newValue));
+					eh(searchBar, new TextChangedEventArgs((string)arg.OldValue, (string)arg.NewValue));
 			});
 
 		public static readonly BindableProperty CancelButtonColorProperty = BindableProperty.Create("CancelButtonColor", typeof(Color), typeof(SearchBar), default(Color));
@@ -159,11 +159,11 @@ namespace Xamarin.Forms
 				IsEnabledCore = cmd.CanExecute(SearchCommandParameter);
 		}
 
-		static void OnCommandChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnCommandChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var self = (SearchBar)bindable;
-			var newCommand = (ICommand)newValue;
-			var oldCommand = (ICommand)oldValue;
+			var newCommand = (ICommand)arg.NewValue;
+			var oldCommand = (ICommand)arg.OldValue;
 
 			if (oldCommand != null)
 			{

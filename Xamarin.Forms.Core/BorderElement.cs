@@ -6,9 +6,9 @@
 			BindableProperty.Create("BorderColor", typeof(Color), typeof(IBorderElement), Color.Default,
 									propertyChanged: OnBorderColorPropertyChanged);
 
-		static void OnBorderColorPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnBorderColorPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
-			((IBorderElement)bindable).OnBorderColorPropertyChanged((Color)oldValue, (Color)newValue);
+			((IBorderElement)bindable).OnBorderColorPropertyChanged((Color)args.OldValue, (Color)args.NewValue);
 		}
 	}
 }

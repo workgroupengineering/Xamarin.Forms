@@ -32,7 +32,7 @@ namespace Xamarin.Forms
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public event EventHandler BindingContextChanged;
+		public event BindingPropertyChangedEventHandler BindingContextChanged;
 
 		internal void ClearValue(BindableProperty property, bool fromStyle)
 		{
@@ -123,7 +123,13 @@ namespace Xamarin.Forms
 			}
 
 			bindable.ApplyBindings(skipBindingContext:false, fromBindingContextChanged:true);
-			bindable.OnBindingContextChanged();
+			bindable.ApplyBindings();
+			bindable.OnBindingContextChanged(new BindablePropertyChangedEventArgs()
+				{
+					Property = BindingContextProperty,
+					OldValue = oldContext,
+					NewValue = value,
+				});
 		}
 
 		protected void ApplyBindings()
@@ -131,9 +137,9 @@ namespace Xamarin.Forms
 			ApplyBindings(skipBindingContext: false, fromBindingContextChanged: false);
 		}
 
-		protected virtual void OnBindingContextChanged()
+		protected virtual void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
-			BindingContextChanged?.Invoke(this, EventArgs.Empty);
+			BindingContextChanged?.Invoke(this, arg);
 		}
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -440,11 +446,11 @@ namespace Xamarin.Forms
 				newBinding.Context = context;
 		}
 
-		static void BindingContextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+		static void BindingContextPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			bindable._inheritedContext = null;
 			bindable.ApplyBindings(skipBindingContext: true, fromBindingContextChanged:true);
-			bindable.OnBindingContextChanged();
+			bindable.OnBindingContextChanged(arg);
 		}
 
 		void ClearValue(BindableProperty property, bool fromStyle, bool checkAccess)
@@ -483,7 +489,12 @@ namespace Xamarin.Forms
 			if (!same)
 			{
 				OnPropertyChanged(property.PropertyName);
-				property.PropertyChanged?.Invoke(this, original, newValue);
+				property.PropertyChanged?.Invoke(this, new BindablePropertyChangedEventArgs()
+						{
+							Property = property,
+							OldValue = original,
+							NewValue = newValue
+						});
 			}
 		}
 
@@ -601,7 +612,12 @@ namespace Xamarin.Forms
 
 				OnPropertyChanged(property.PropertyName);
 
-				property.PropertyChanged?.Invoke(this, original, value);
+				property.PropertyChanged?.Invoke(this, new BindablePropertyChangedEventArgs()
+					{
+						Property = property,
+						OldValue = original,
+						NewValue = value,
+					});
 			}
 		}
 

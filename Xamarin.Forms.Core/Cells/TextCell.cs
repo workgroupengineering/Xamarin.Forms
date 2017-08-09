@@ -12,10 +12,10 @@ namespace Xamarin.Forms
 				var oldcommand = (ICommand)oldvalue;
 				if (oldcommand != null)
 					oldcommand.CanExecuteChanged -= textCell.OnCommandCanExecuteChanged;
-			}, propertyChanged: (bindable, oldvalue, newvalue) =>
+			}, propertyChanged: (bindable, arg) =>
 			{
 				var textCell = (TextCell)bindable;
-				var newcommand = (ICommand)newvalue;
+				var newcommand = (ICommand)arg.NewValue;
 				if (newcommand != null)
 				{
 					textCell.IsEnabled = newcommand.CanExecute(textCell.CommandParameter);
@@ -24,12 +24,12 @@ namespace Xamarin.Forms
 			});
 
 		public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create("CommandParameter", typeof(object), typeof(TextCell), default(object),
-			propertyChanged: (bindable, oldvalue, newvalue) =>
+			propertyChanged: (bindable, arg) =>
 			{
 				var textCell = (TextCell)bindable;
 				if (textCell.Command != null)
 				{
-					textCell.IsEnabled = textCell.Command.CanExecute(newvalue);
+					textCell.IsEnabled = textCell.Command.CanExecute(arg.NewValue);
 				}
 			});
 

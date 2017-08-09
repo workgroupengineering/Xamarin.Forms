@@ -103,9 +103,9 @@ namespace Xamarin.Forms
 			items.ForEach(_children.Add);
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 
 			object bc = BindingContext;
 			foreach (T child in _children)

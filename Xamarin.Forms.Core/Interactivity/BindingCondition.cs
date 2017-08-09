@@ -83,10 +83,10 @@ namespace Xamarin.Forms
 			return (other == converted) || (other != null && other.Equals(converted));
 		}
 
-		void OnBoundPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		void OnBoundPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
-			bool oldState = EqualsToValue(oldValue);
-			bool newState = EqualsToValue(newValue);
+			bool oldState = EqualsToValue(arg.OldValue);
+			bool newState = EqualsToValue(arg.NewValue);
 
 			if (newState == oldState)
 				return;

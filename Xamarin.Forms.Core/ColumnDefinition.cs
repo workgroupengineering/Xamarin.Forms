@@ -5,7 +5,7 @@ namespace Xamarin.Forms
 	public sealed class ColumnDefinition : BindableObject, IDefinition
 	{
 		public static readonly BindableProperty WidthProperty = BindableProperty.Create("Width", typeof(GridLength), typeof(ColumnDefinition), new GridLength(1, GridUnitType.Star),
-			propertyChanged: (bindable, oldValue, newValue) => ((ColumnDefinition)bindable).OnSizeChanged());
+			propertyChanged: (bindable, arg) => ((ColumnDefinition)bindable).OnSizeChanged());
 
 		public ColumnDefinition()
 		{

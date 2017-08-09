@@ -334,11 +334,11 @@ namespace Xamarin.Forms.Controls.Issues
 				}
 			}
 
-			protected override void OnBindingContextChanged()
+			protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs args)
 			{
 				try
 				{
-					base.OnBindingContextChanged();
+					base.OnBindingContextChanged(args);
 					var item = BindingContext as ListItem;
 					if (item != null)
 					{

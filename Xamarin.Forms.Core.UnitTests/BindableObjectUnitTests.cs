@@ -430,7 +430,7 @@ namespace Xamarin.Forms.Core.UnitTests
 			bool changingdelegatefired = false;
 			bool changeddelegatefired = false;
 			var property = BindableProperty.Create ("Foo", typeof(string), typeof(MockBindable), "foo", 
-				propertyChanged: (b, o, n) => changeddelegatefired = true,
+				propertyChanged: (b, a) => changeddelegatefired = true,
 				propertyChanging: (b, o, n) => changingdelegatefired = true
 			);
 			bindable.PropertyChanged += (sender, e) => { changedfired |= e.PropertyName == "Foo"; };
@@ -455,7 +455,7 @@ namespace Xamarin.Forms.Core.UnitTests
 			bool changingdelegatefired = false;
 			bool changeddelegatefired = false;
 			var property = BindableProperty.Create ("Foo", typeof(string), typeof(MockBindable), "foo", 
-				propertyChanged: (b, o, n) => changeddelegatefired = true,
+				propertyChanged: (b, a) => changeddelegatefired = true,
 				propertyChanging: (b, o, n) => changingdelegatefired = true
 			);
 			bindable.PropertyChanged += (sender, e) => { changedfired |= e.PropertyName == "Foo"; };
@@ -813,7 +813,7 @@ namespace Xamarin.Forms.Core.UnitTests
 			int propertychanged = 0;
 			int changedfired = 0;
 			var bindableProperty = BindableProperty.Create ("Foo", typeof(object), typeof(MockBindable), null, 
-				propertyChanged: (bindable,oldvalue,newvalue) =>{
+				propertyChanged: (bindable,args) =>{
 					propertychanged ++;
 				},
 				defaultValueCreator: o => {
@@ -1284,9 +1284,9 @@ namespace Xamarin.Forms.Core.UnitTests
 			int changingOld = -1;
 			int changingNew = -1;
 			var prop = BindableProperty.Create ("Foo", typeof (int), typeof (MockBindable), 0, defaultValueCreator: b => 10,
-			                                    propertyChanged: (b, value, newValue) => {
-				                                    changedOld = (int) value;
-				                                    changedNew = (int) newValue;
+			                                    propertyChanged: (b, args) => {
+				                                    changedOld = (int) args.OldValue;
+				                                    changedNew = (int) args.NewValue;
 			                                    },
 												propertyChanging: (b, value, newValue) => {
 													changingOld = (int) value;

@@ -37,8 +37,9 @@ namespace Xamarin.Forms
 			{
 				if (oldvalue != null)
 					((FormattedString)oldvalue).PropertyChanged -= ((Label)bindable).OnFormattedTextChanged;
-			}, propertyChanged: (bindable, oldvalue, newvalue) =>
+			}, propertyChanged: (bindable, arg) =>
 			{
+				var newvalue = arg.NewValue;
 				if (newvalue != null)
 					((FormattedString)newvalue).PropertyChanged += ((Label)bindable).OnFormattedTextChanged;
 				((Label)bindable).InvalidateMeasureInternal(InvalidationTrigger.MeasureChanged);
@@ -47,7 +48,7 @@ namespace Xamarin.Forms
 			});
 
 		public static readonly BindableProperty LineBreakModeProperty = BindableProperty.Create("LineBreakMode", typeof(LineBreakMode), typeof(Label), LineBreakMode.WordWrap,
-			propertyChanged: (bindable, oldvalue, newvalue) => ((Label)bindable).InvalidateMeasureInternal(InvalidationTrigger.MeasureChanged));
+			propertyChanged: (bindable, arg) => ((Label)bindable).InvalidateMeasureInternal(InvalidationTrigger.MeasureChanged));
 
 		readonly Lazy<PlatformConfigurationRegistry<Label>> _platformConfigurationRegistry;
 
@@ -160,7 +161,7 @@ namespace Xamarin.Forms
 #pragma warning restore
 		}
 
-		static void OnTextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+		static void OnTextPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var label = (Label)bindable;
 			LineBreakMode breakMode = label.LineBreakMode;
@@ -168,11 +169,11 @@ namespace Xamarin.Forms
 			bool isSingleLine = !(breakMode == LineBreakMode.CharacterWrap || breakMode == LineBreakMode.WordWrap);
 			if (!isVerticallyFixed || !isSingleLine)
 				((Label)bindable).InvalidateMeasureInternal(InvalidationTrigger.MeasureChanged);
-			if (newvalue != null)
+			if (arg.NewValue != null)
 				((Label)bindable).FormattedText = null;
 		}
 
-		static void OnVerticalTextAlignmentPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnVerticalTextAlignmentPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var label = (Label)bindable;
 #pragma warning disable 0618 // retain until YAlign removed

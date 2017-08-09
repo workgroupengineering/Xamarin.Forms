@@ -78,9 +78,9 @@ namespace Xamarin.Forms
 		{
 		}
 
-		static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnItemsSourceChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
-			var element = newValue as Element;
+			var element = arg.NewValue as Element;
 			if (element == null)
 				return;
 			element.Parent = (Element)bindable;

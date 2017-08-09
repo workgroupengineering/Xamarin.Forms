@@ -50,7 +50,7 @@ namespace Xamarin.Forms.Core.UnitTests
 			const string dvalue = "default";
 			BindableProperty.CoerceValueDelegate coerce = (bindable, value) => value;
 			BindableProperty.ValidateValueDelegate validate = (b, v) => true;
-			BindableProperty.BindingPropertyChangedDelegate changed = (b, ov, nv) => { };
+			BindingPropertyChangedEventHandler changed = (b, a) => { };
 			BindableProperty.BindingPropertyChangingDelegate changing = (b, ov, nv) => { };
 
 			var prop = BindableProperty.Create ("Text", typeof(string), typeof(Button), dvalue, mode, validate, changed, changing, coerce);
@@ -77,7 +77,7 @@ namespace Xamarin.Forms.Core.UnitTests
 			const string dvalue = "default";
 			BindableProperty.CoerceValueDelegate coerce = (bindable, value) => value;
 			BindableProperty.ValidateValueDelegate validate = (b, v) => true;
-			BindableProperty.BindingPropertyChangedDelegate changed = (b, ov, nv) => { };
+			BindingPropertyChangedEventHandler changed = (b, a) => { };
 			BindableProperty.BindingPropertyChangingDelegate changing = (b, ov, nv) => { };
 
 			var prop = BindableProperty.Create ("Text", typeof(string), typeof(GenericView<>), dvalue, mode, validate, changed, changing, coerce);

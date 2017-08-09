@@ -31,11 +31,11 @@ namespace Xamarin.Forms.Pages
 			set { SetValue(SelectedItemProperty, value); }
 		}
 
-		static async void OnSelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
+		static async void OnSelectedItemChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
 			var self = (ListDataPage)bindable;
 			DataTemplate template = self.DetailTemplate;
-			if (newValue == null)
+			if (args.NewValue == null)
 				return;
 
 			Page detailPage;
@@ -45,10 +45,10 @@ namespace Xamarin.Forms.Pages
 			}
 			else
 			{
-				detailPage = (Page)template.CreateContent(newValue, self);
+				detailPage = (Page)template.CreateContent(args.NewValue, self);
 			}
 
-			detailPage.BindingContext = newValue;
+			detailPage.BindingContext = args.NewValue;
 			await self.Navigation.PushAsync(detailPage);
 
 			self.SelectedItem = null;

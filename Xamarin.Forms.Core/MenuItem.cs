@@ -17,10 +17,10 @@ namespace Xamarin.Forms
 		public static readonly BindableProperty TextProperty = BindableProperty.Create("Text", typeof(string), typeof(MenuItem), null);
 
 		public static readonly BindableProperty CommandProperty = BindableProperty.Create("Command", typeof(ICommand), typeof(MenuItem), null,
-			propertyChanging: (bo, o, n) => ((MenuItem)bo).OnCommandChanging(), propertyChanged: (bo, o, n) => ((MenuItem)bo).OnCommandChanged());
+			propertyChanging: (bo, o, n) => ((MenuItem)bo).OnCommandChanging(), propertyChanged: (bo, arg) => ((MenuItem)bo).OnCommandChanged());
 
 		public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create("CommandParameter", typeof(object), typeof(MenuItem), null,
-			propertyChanged: (bo, o, n) => ((MenuItem)bo).OnCommandParameterChanged());
+			propertyChanged: (bo, arg) => ((MenuItem)bo).OnCommandParameterChanged());
 
 		public static readonly BindableProperty IsDestructiveProperty = BindableProperty.Create("IsDestructive", typeof(bool), typeof(MenuItem), false);
 

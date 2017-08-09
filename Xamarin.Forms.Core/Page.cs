@@ -24,7 +24,7 @@ namespace Xamarin.Forms
 
 		public static readonly BindableProperty BackgroundImageProperty = BindableProperty.Create("BackgroundImage", typeof(string), typeof(Page), default(string));
 
-		public static readonly BindableProperty IsBusyProperty = BindableProperty.Create("IsBusy", typeof(bool), typeof(Page), false, propertyChanged: (bo, o, n) => ((Page)bo).OnPageBusyChanged());
+		public static readonly BindableProperty IsBusyProperty = BindableProperty.Create("IsBusy", typeof(bool), typeof(Page), false, propertyChanged: (bo, arg) => ((Page)bo).OnPageBusyChanged());
 
 		public static readonly BindableProperty PaddingProperty = PaddingElement.PaddingProperty;
 
@@ -207,9 +207,9 @@ namespace Xamarin.Forms
 			return !canceled;
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 			foreach (ToolbarItem toolbarItem in ToolbarItems)
 			{
 				SetInheritedBindingContext(toolbarItem, BindingContext);

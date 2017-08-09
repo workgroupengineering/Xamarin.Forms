@@ -52,11 +52,11 @@ namespace Xamarin.Forms.Pages
 			DataSource?.UnmaskKey(key);
 		}
 
-		static void OnDataSourceChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnDataSourceChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
 			var dataView = (DataPage)bindable;
-			var dataSource = (IDataSource)newValue;
-			var oldSource = (IDataSource)oldValue;
+			var dataSource = (IDataSource)args.NewValue;
+			var oldSource = (IDataSource)args.OldValue;
 
 			if (oldSource != null)
 			{

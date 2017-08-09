@@ -33,12 +33,12 @@ namespace Xamarin.Forms
 		{
 			var stepper = (Stepper)bindable;
 			return ((double)value).Clamp(stepper.Minimum, stepper.Maximum);
-		}, propertyChanged: (bindable, oldValue, newValue) =>
+		}, propertyChanged: (bindable, arg) =>
 		{
 			var stepper = (Stepper)bindable;
 			EventHandler<ValueChangedEventArgs> eh = stepper.ValueChanged;
 			if (eh != null)
-				eh(stepper, new ValueChangedEventArgs((double)oldValue, (double)newValue));
+				eh(stepper, new ValueChangedEventArgs((double)arg.OldValue, (double)arg.NewValue));
 		});
 
 		public static readonly BindableProperty IncrementProperty = BindableProperty.Create("Increment", typeof(double), typeof(Stepper), 1.0);

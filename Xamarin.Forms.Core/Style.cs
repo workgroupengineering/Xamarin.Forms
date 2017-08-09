@@ -155,13 +155,13 @@ namespace Xamarin.Forms
 			return (Style)bindable.GetValue(_basedOnResourceProperty);
 		}
 
-		static void OnBasedOnResourceChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnBasedOnResourceChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			Style style = (bindable as VisualElement).Style;
 			if (style == null)
 				return;
-			style.UnApplyCore(bindable, (Style)oldValue);
-			style.ApplyCore(bindable, (Style)newValue);
+			style.UnApplyCore(bindable, (Style)arg.OldValue);
+			style.ApplyCore(bindable, (Style)arg.NewValue);
 		}
 
 		void UnApplyCore(BindableObject bindable, Style basedOn)

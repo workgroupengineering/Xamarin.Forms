@@ -6,9 +6,9 @@
 			BindableProperty.Create(nameof(ITextAlignmentElement.HorizontalTextAlignment), typeof(TextAlignment), typeof(EntryCell), TextAlignment.Start,
 									propertyChanged: OnHorizontalTextAlignmentPropertyChanged);
 
-		static void OnHorizontalTextAlignmentPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnHorizontalTextAlignmentPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
-			((ITextAlignmentElement)bindable).OnHorizontalTextAlignmentPropertyChanged((TextAlignment)oldValue, (TextAlignment)newValue);
+			((ITextAlignmentElement)bindable).OnHorizontalTextAlignmentPropertyChanged((TextAlignment)args.OldValue, (TextAlignment)args.NewValue);
 		}
 	}
 }

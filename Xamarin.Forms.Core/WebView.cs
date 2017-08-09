@@ -14,9 +14,9 @@ namespace Xamarin.Forms
 				var source = oldvalue as WebViewSource;
 				if (source != null)
 					source.SourceChanged -= ((WebView)bindable).OnSourceChanged;
-			}, propertyChanged: (bindable, oldvalue, newvalue) =>
+			}, propertyChanged: (bindable, arg) =>
 			{
-				var source = newvalue as WebViewSource;
+				var source = arg.NewValue as WebViewSource;
 				var webview = (WebView)bindable;
 				if (source != null)
 				{
@@ -95,9 +95,9 @@ namespace Xamarin.Forms
 
 		public event EventHandler<WebNavigatingEventArgs> Navigating;
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 
 			WebViewSource source = Source;
 			if (source != null)

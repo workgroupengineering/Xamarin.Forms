@@ -154,9 +154,9 @@ namespace Xamarin.Forms
 			UpdateSelectedItem();
 		}
 
-		static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnItemsSourceChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
-			((Picker)bindable).OnItemsSourceChanged((IList)oldValue, (IList)newValue);
+			((Picker)bindable).OnItemsSourceChanged((IList)arg.OldValue, (IList)arg.NewValue);
 		}
 
 		void OnItemsSourceChanged(IList oldValue, IList newValue)
@@ -217,17 +217,17 @@ namespace Xamarin.Forms
 			UpdateSelectedItem();
 		}
 
-		static void OnSelectedIndexChanged(object bindable, object oldValue, object newValue)
+		static void OnSelectedIndexChanged(object bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var picker = (Picker)bindable;
 			picker.UpdateSelectedItem();
 			picker.SelectedIndexChanged?.Invoke(bindable, EventArgs.Empty);
 		}
 
-		static void OnSelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnSelectedItemChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var picker = (Picker)bindable;
-			picker.UpdateSelectedIndex(newValue);
+			picker.UpdateSelectedIndex(arg.NewValue);
 		}
 
 		void UpdateSelectedIndex(object selectedItem)

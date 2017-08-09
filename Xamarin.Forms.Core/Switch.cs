@@ -6,11 +6,11 @@ namespace Xamarin.Forms
 	[RenderWith(typeof(_SwitchRenderer))]
 	public class Switch : View, IElementConfiguration<Switch>
 	{
-		public static readonly BindableProperty IsToggledProperty = BindableProperty.Create("IsToggled", typeof(bool), typeof(Switch), false, propertyChanged: (bindable, oldValue, newValue) =>
+		public static readonly BindableProperty IsToggledProperty = BindableProperty.Create("IsToggled", typeof(bool), typeof(Switch), false, propertyChanged: (bindable, arg) =>
 		{
 			EventHandler<ToggledEventArgs> eh = ((Switch)bindable).Toggled;
 			if (eh != null)
-				eh(bindable, new ToggledEventArgs((bool)newValue));
+				eh(bindable, new ToggledEventArgs((bool)arg.NewValue));
 		}, defaultBindingMode: BindingMode.TwoWay);
 
 		readonly Lazy<PlatformConfigurationRegistry<Switch>> _platformConfigurationRegistry;

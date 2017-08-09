@@ -82,7 +82,7 @@ namespace Xamarin.Forms
 			}
 		}
 
-		static void ConstraintChanged(BindableObject bindable, object oldValue, object newValue)
+		static void ConstraintChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			View view = bindable as View;
 

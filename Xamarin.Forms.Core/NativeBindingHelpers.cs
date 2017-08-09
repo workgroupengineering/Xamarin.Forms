@@ -65,10 +65,10 @@ namespace Xamarin.Forms.Internals
 				typeof(BindableObjectProxy<TNativeView>),
 				defaultValue: defaultValue,
 				defaultBindingMode: BindingMode.Default,
-				propertyChanged: (bindable, oldValue, newValue) => {
+				propertyChanged: (bindable, arg) => {
 					TNativeView nativeView;
 					if ((bindable as BindableObjectProxy<TNativeView>).TargetReference.TryGetTarget(out nativeView))
-						SetNativeValue(nativeView, targetProperty, newValue);
+						SetNativeValue(nativeView, targetProperty, arg.NewValue);
 				}
 			);
 		}

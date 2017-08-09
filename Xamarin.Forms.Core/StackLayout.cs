@@ -7,10 +7,10 @@ namespace Xamarin.Forms
 	public class StackLayout : Layout<View>, IElementConfiguration<StackLayout>
 	{
 		public static readonly BindableProperty OrientationProperty = BindableProperty.Create("Orientation", typeof(StackOrientation), typeof(StackLayout), StackOrientation.Vertical,
-			propertyChanged: (bindable, oldvalue, newvalue) => ((StackLayout)bindable).InvalidateLayout());
+			propertyChanged: (bindable, arg) => ((StackLayout)bindable).InvalidateLayout());
 
 		public static readonly BindableProperty SpacingProperty = BindableProperty.Create("Spacing", typeof(double), typeof(StackLayout), 6d,
-			propertyChanged: (bindable, oldvalue, newvalue) => ((StackLayout)bindable).InvalidateLayout());
+			propertyChanged: (bindable, arg) => ((StackLayout)bindable).InvalidateLayout());
 
 		LayoutInformation _layoutInformation = new LayoutInformation();
 		readonly Lazy<PlatformConfigurationRegistry<StackLayout>> _platformConfigurationRegistry;

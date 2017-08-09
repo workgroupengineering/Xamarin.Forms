@@ -157,16 +157,16 @@ namespace Xamarin.Forms.Controls
 		class CustomCell : ViewCell
 		{
 			public static BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(CustomCell), default(string), propertyChanged:
-			(bindable, oldValue, newValue) =>
+			(bindable, args) =>
 			{
 				var view = (CustomCell)bindable;
-				view.Text = newValue.ToString();
+				view.Text = args.NewValue.ToString();
 			});
 			public static BindableProperty DetailProperty = BindableProperty.Create(nameof(Detail), typeof(string), typeof(CustomCell), default(string), propertyChanged:
-			(bindable, oldValue, newValue) =>
+			(bindable, args) =>
 			{
 				var view = (CustomCell)bindable;
-				view.Detail = newValue.ToString();
+				view.Detail = args.NewValue.ToString();
 			});
 
 			public string Text

@@ -10,16 +10,16 @@ namespace Xamarin.Forms
 	[RenderWith(typeof(_ButtonRenderer))]
 	public class Button : View, IFontElement, ITextElement, IBorderElement, IButtonController, IElementConfiguration<Button>
 	{
-		public static readonly BindableProperty CommandProperty = BindableProperty.Create("Command", typeof(ICommand), typeof(Button), null, propertyChanged: (bo, o, n) => ((Button)bo).OnCommandChanged());
+		public static readonly BindableProperty CommandProperty = BindableProperty.Create("Command", typeof(ICommand), typeof(Button), null, propertyChanged: (bo, arg) => ((Button)bo).OnCommandChanged());
 
 		public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create("CommandParameter", typeof(object), typeof(Button), null,
-			propertyChanged: (bindable, oldvalue, newvalue) => ((Button)bindable).CommandCanExecuteChanged(bindable, EventArgs.Empty));
+			propertyChanged: (bindable, arg) => ((Button)bindable).CommandCanExecuteChanged(bindable, EventArgs.Empty));
 
 		public static readonly BindableProperty ContentLayoutProperty =
 			BindableProperty.Create("ContentLayout", typeof(ButtonContentLayout), typeof(Button), new ButtonContentLayout(ButtonContentLayout.ImagePosition.Left, DefaultSpacing));
 
 		public static readonly BindableProperty TextProperty = BindableProperty.Create("Text", typeof(string), typeof(Button), null,
-			propertyChanged: (bindable, oldVal, newVal) => ((Button)bindable).InvalidateMeasureInternal(InvalidationTrigger.MeasureChanged));
+			propertyChanged: (bindable, arg) => ((Button)bindable).InvalidateMeasureInternal(InvalidationTrigger.MeasureChanged));
 
 		public static readonly BindableProperty TextColorProperty = TextElement.TextColorProperty;
 
@@ -39,7 +39,7 @@ namespace Xamarin.Forms
 
 		public static readonly BindableProperty ImageProperty = BindableProperty.Create("Image", typeof(FileImageSource), typeof(Button), default(FileImageSource),
 			propertyChanging: (bindable, oldvalue, newvalue) => ((Button)bindable).OnSourcePropertyChanging((ImageSource)oldvalue, (ImageSource)newvalue),
-			propertyChanged: (bindable, oldvalue, newvalue) => ((Button)bindable).OnSourcePropertyChanged((ImageSource)oldvalue, (ImageSource)newvalue));
+			propertyChanged: (bindable, arg) => ((Button)bindable).OnSourcePropertyChanged((ImageSource)arg.OldValue, (ImageSource)arg.NewValue));
 
 		readonly Lazy<PlatformConfigurationRegistry<Button>> _platformConfigurationRegistry;
 
@@ -173,13 +173,13 @@ namespace Xamarin.Forms
 			return _platformConfigurationRegistry.Value.On<T>();
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
 			FileImageSource image = Image;
 			if (image != null)
 				SetInheritedBindingContext(image, BindingContext);
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 		}
 
 		protected override void OnPropertyChanging(string propertyName = null)

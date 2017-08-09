@@ -11,13 +11,14 @@ namespace Xamarin.Forms
 	{
 		public static readonly BindableProperty VerticalOptionsProperty =
 			BindableProperty.Create(nameof(VerticalOptions), typeof(LayoutOptions), typeof(View), LayoutOptions.Fill,
-									propertyChanged: (bindable, oldvalue, newvalue) =>
+									propertyChanged: (bindable, arg) =>
 									((View)bindable).InvalidateMeasureInternal(InvalidationTrigger.VerticalOptionsChanged));
 
 		public static readonly BindableProperty HorizontalOptionsProperty =
 			BindableProperty.Create(nameof(HorizontalOptions), typeof(LayoutOptions), typeof(View), LayoutOptions.Fill,
-									propertyChanged: (bindable, oldvalue, newvalue) =>
+									propertyChanged: (bindable, arg) =>
 									((View)bindable).InvalidateMeasureInternal(InvalidationTrigger.HorizontalOptionsChanged));
+
 
 		public static readonly BindableProperty MarginProperty =
 			BindableProperty.Create(nameof(Margin), typeof(Thickness), typeof(View), default(Thickness),
@@ -27,10 +28,10 @@ namespace Xamarin.Forms
 			BindableProperty.Create("MarginLeft", typeof(double), typeof(View), default(double),
 									propertyChanged: OnMarginLeftPropertyChanged);
 
-		static void OnMarginLeftPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnMarginLeftPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
 			var margin = (Thickness)bindable.GetValue(MarginProperty);
-			margin.Left = (double)newValue;
+			margin.Left = (double)args.NewValue;
 			bindable.SetValue(MarginProperty, margin);
 		}
 
@@ -38,10 +39,10 @@ namespace Xamarin.Forms
 			BindableProperty.Create("MarginTop", typeof(double), typeof(View), default(double),
 									propertyChanged: OnMarginTopPropertyChanged);
 
-		static void OnMarginTopPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnMarginTopPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
 			var margin = (Thickness)bindable.GetValue(MarginProperty);
-			margin.Top = (double)newValue;
+			margin.Top = (double)args.NewValue;
 			bindable.SetValue(MarginProperty, margin);
 		}
 
@@ -49,10 +50,10 @@ namespace Xamarin.Forms
 			BindableProperty.Create("MarginRight", typeof(double), typeof(View), default(double),
 									propertyChanged: OnMarginRightPropertyChanged);
 
-		static void OnMarginRightPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnMarginRightPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
 			var margin = (Thickness)bindable.GetValue(MarginProperty);
-			margin.Right = (double)newValue;
+			margin.Right = (double)args.NewValue;
 			bindable.SetValue(MarginProperty, margin);
 		}
 
@@ -61,10 +62,10 @@ namespace Xamarin.Forms
 									propertyChanged: OnMarginBottomPropertyChanged);
 
 
-		static void OnMarginBottomPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnMarginBottomPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs args)
 		{
 			var margin = (Thickness)bindable.GetValue(MarginProperty);
-			margin.Bottom = (double)newValue;
+			margin.Bottom = (double)args.NewValue;
 			bindable.SetValue(MarginProperty, margin);
 		}
 
@@ -127,7 +128,7 @@ namespace Xamarin.Forms
 			set { SetValue(VerticalOptionsProperty, value); }
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
 			var gotBindingContext = false;
 			object bc = null;
@@ -147,10 +148,10 @@ namespace Xamarin.Forms
 				SetInheritedBindingContext(bo, bc);
 			}
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 		}
 
-		static void MarginPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void MarginPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			((View)bindable).InvalidateMeasureInternal(InvalidationTrigger.MarginChanged);
 		}

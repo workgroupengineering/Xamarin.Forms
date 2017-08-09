@@ -6,9 +6,9 @@ namespace Xamarin.Forms
 			BindableProperty.Create(nameof(ITextElement.TextColor), typeof(Color), typeof(ITextElement), Color.Default,
 									propertyChanged: OnTextColorPropertyChanged);
 
-		static void OnTextColorPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnTextColorPropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
-			((ITextElement)bindable).OnTextColorPropertyChanged((Color)oldValue, (Color)newValue);
+			((ITextElement)bindable).OnTextColorPropertyChanged((Color)arg.OldValue, (Color)arg.NewValue);
 		}
 	}
 }

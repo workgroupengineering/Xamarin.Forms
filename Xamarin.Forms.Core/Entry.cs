@@ -113,11 +113,11 @@ namespace Xamarin.Forms
 			Completed?.Invoke(this, EventArgs.Empty);
 		}
 
-		static void OnTextChanged(BindableObject bindable, object oldValue, object newValue)
+		static void OnTextChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var entry = (Entry)bindable;
 
-			entry.TextChanged?.Invoke(entry, new TextChangedEventArgs((string)oldValue, (string)newValue));
+			entry.TextChanged?.Invoke(entry, new TextChangedEventArgs((string)arg.OldValue, (string)arg.NewValue));
 		}
 
 		public IPlatformElementConfiguration<T, Entry> On<T>() where T : IConfigPlatform

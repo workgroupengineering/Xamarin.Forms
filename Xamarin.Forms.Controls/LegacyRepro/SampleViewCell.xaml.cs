@@ -76,9 +76,9 @@ namespace App2
         //        setContextActions();
         //    }
         //}
-        protected override void OnBindingContextChanged()
+        protected override void  OnBindingContextChanged ( BindablePropertyChangedEventArgs args)
         {
-            base.OnBindingContextChanged();
+            base.OnBindingContextChanged(args);
             SetContextActions();
         }
 

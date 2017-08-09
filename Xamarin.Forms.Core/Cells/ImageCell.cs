@@ -6,7 +6,7 @@ namespace Xamarin.Forms
 	{
 		public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create("ImageSource", typeof(ImageSource), typeof(ImageCell), null,
 			propertyChanging: (bindable, oldvalue, newvalue) => ((ImageCell)bindable).OnSourcePropertyChanging((ImageSource)oldvalue, (ImageSource)newvalue),
-			propertyChanged: (bindable, oldvalue, newvalue) => ((ImageCell)bindable).OnSourcePropertyChanged((ImageSource)oldvalue, (ImageSource)newvalue));
+			propertyChanged: (bindable, arg) => ((ImageCell)bindable).OnSourcePropertyChanged((ImageSource)arg.OldValue, (ImageSource)arg.NewValue));
 
 		public ImageCell()
 		{
@@ -25,12 +25,12 @@ namespace Xamarin.Forms
 			set { SetValue(ImageSourceProperty, value); }
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
 			if (ImageSource != null)
 				SetInheritedBindingContext(ImageSource, BindingContext);
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 		}
 
 		void OnSourceChanged(object sender, EventArgs eventArgs)

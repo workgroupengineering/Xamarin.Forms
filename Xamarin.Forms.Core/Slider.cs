@@ -33,12 +33,12 @@ namespace Xamarin.Forms
 		{
 			var slider = (Slider)bindable;
 			return ((double)value).Clamp(slider.Minimum, slider.Maximum);
-		}, propertyChanged: (bindable, oldValue, newValue) =>
+		}, propertyChanged: (bindable, arg) =>
 		{
 			var slider = (Slider)bindable;
 			EventHandler<ValueChangedEventArgs> eh = slider.ValueChanged;
 			if (eh != null)
-				eh(slider, new ValueChangedEventArgs((double)oldValue, (double)newValue));
+				eh(slider, new ValueChangedEventArgs((double)arg.OldValue, (double)arg.NewValue));
 		});
 
 		readonly Lazy<PlatformConfigurationRegistry<Slider>> _platformConfigurationRegistry;

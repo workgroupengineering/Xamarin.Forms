@@ -135,13 +135,13 @@ namespace Xamarin.Forms
 			return dateValue;
 		}
 
-		static void DatePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		static void DatePropertyChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var datePicker = (DatePicker)bindable;
 			EventHandler<DateChangedEventArgs> selected = datePicker.DateSelected;
 
 			if (selected != null)
-				selected(datePicker, new DateChangedEventArgs((DateTime)oldValue, (DateTime)newValue));
+				selected(datePicker, new DateChangedEventArgs((DateTime)arg.OldValue, (DateTime)arg.NewValue));
 		}
 
 		static bool ValidateMaximumDate(BindableObject bindable, object value)

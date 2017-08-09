@@ -52,10 +52,10 @@ namespace Xamarin.Forms
 			return tcs.Task;
 		}
 
-		public static void OnContentChanged(BindableObject bindable, object oldValue, object newValue)
+		public static void OnContentChanged(BindableObject bindable, BindablePropertyChangedEventArgs arg)
 		{
 			var self = (IControlTemplated)bindable;
-			var newElement = (Element)newValue;
+			var newElement = (Element)arg.NewValue;
 			if (self.ControlTemplate == null)
 			{
 				while (self.InternalChildren.Count > 0)
@@ -63,7 +63,7 @@ namespace Xamarin.Forms
 					self.InternalChildren.RemoveAt(self.InternalChildren.Count - 1);
 				}
 
-				if (newValue != null)
+				if (arg.NewValue != null)
 					self.InternalChildren.Add(newElement);
 			}
 			else

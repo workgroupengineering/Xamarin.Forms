@@ -5,10 +5,10 @@ namespace Xamarin.Forms
 	public class HtmlWebViewSource : WebViewSource
 	{
 		public static readonly BindableProperty HtmlProperty = BindableProperty.Create("Html", typeof(string), typeof(HtmlWebViewSource), default(string),
-			propertyChanged: (bindable, oldvalue, newvalue) => ((HtmlWebViewSource)bindable).OnSourceChanged());
+			propertyChanged: (bindable, arg) => ((HtmlWebViewSource)bindable).OnSourceChanged());
 
 		public static readonly BindableProperty BaseUrlProperty = BindableProperty.Create("BaseUrl", typeof(string), typeof(HtmlWebViewSource), default(string),
-			propertyChanged: (bindable, oldvalue, newvalue) => ((HtmlWebViewSource)bindable).OnSourceChanged());
+			propertyChanged: (bindable, arg) => ((HtmlWebViewSource)bindable).OnSourceChanged());
 
 		public string BaseUrl
 		{
