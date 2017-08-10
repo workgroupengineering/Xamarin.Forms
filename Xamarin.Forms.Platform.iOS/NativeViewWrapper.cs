@@ -28,10 +28,10 @@ namespace Xamarin.Forms.Platform.MacOS
 
 		public SizeThatFitsDelegate SizeThatFitsDelegate { get; set; }
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
 			NativeView.SetBindingContext(BindingContext, nv => nv.Subviews);
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 		}
 	}
 }

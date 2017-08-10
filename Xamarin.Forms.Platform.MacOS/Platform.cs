@@ -10,11 +10,11 @@ namespace Xamarin.Forms.Platform.MacOS
 	{
 		internal static readonly BindableProperty RendererProperty = BindableProperty.CreateAttached("Renderer",
 			typeof(IVisualElementRenderer), typeof(Platform), default(IVisualElementRenderer),
-			propertyChanged: (bindable, oldvalue, newvalue) =>
+			propertyChanged: (bindable, arg) =>
 			{
 				var view = bindable as VisualElement;
 				if (view != null)
-					view.IsPlatformEnabled = newvalue != null;
+					view.IsPlatformEnabled = arg.NewValue != null;
 			});
 
 		readonly PlatformRenderer PlatformRenderer;
@@ -123,11 +123,11 @@ namespace Xamarin.Forms.Platform.MacOS
 			bindable.SetValue(RendererProperty, value);
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(BindablePropertyChangedEventArgs arg)
 		{
 			SetInheritedBindingContext(Page, BindingContext);
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(arg);
 		}
 
 		internal NSViewController ViewController => PlatformRenderer;
