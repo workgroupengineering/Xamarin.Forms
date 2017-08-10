@@ -1437,5 +1437,23 @@ namespace Xamarin.Forms.Core.UnitTests
 
 			Assert.That (() => binding.Path = "Foo", Throws.Nothing);
 		}
+
+		[Test]
+		public void BindingContextChangedEventSameValue()
+		{
+			var mock = new MockBindable();
+			mock.BindingContext = 1;
+			mock.BindingContextChanged += (sender, o, n) => Assert.Fail();
+			mock.BindingContext = 1;
+		}
+
+		[Test]
+		public void BindingContextChangedEventNotSameValue()
+		{
+			var mock = new MockBindable();
+			mock.BindingContext = 1;
+			mock.BindingContextChanged += (sender, o, n) => Assert.AreNotEqual( o == n,"oldValue and newValue are same.");
+			mock.BindingContext = 2;			
+		}
 	}
 }
