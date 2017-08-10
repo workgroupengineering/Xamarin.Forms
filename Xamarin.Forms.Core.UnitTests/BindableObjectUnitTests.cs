@@ -104,7 +104,7 @@ namespace Xamarin.Forms.Core.UnitTests
 		public void BindingContextChangedEvent()
 		{
 			var mock = new MockBindable();
-			mock.BindingContextChanged += (sender, args) => Assert.Pass();
+			mock.BindingContextChanged += (sender, o, n) => Assert.Pass();
 
 			mock.BindingContext = new object();
 
@@ -117,7 +117,7 @@ namespace Xamarin.Forms.Core.UnitTests
 			var count = 0;
 
 			var mock = new MockBindable();
-			mock.BindingContextChanged += (sender, args) => ++count;
+			mock.BindingContextChanged += (sender, o, n) => ++count;
 
 			mock.BindingContext = new object();
 			Assert.AreEqual(count, 1);
@@ -163,10 +163,10 @@ namespace Xamarin.Forms.Core.UnitTests
 			var changedWhenNoChange = " BindingContext was changed when there was no change in context.";
 
 			var parent = new MockBindable();
-			parent.BindingContextChanged += (sender, args) => { ++parentCount; };
+			parent.BindingContextChanged += (sender, o, n) => { ++parentCount; };
 
 			var child = new MockBindable();
-			child.BindingContextChanged += (sender, args) => { ++childCount; };
+			child.BindingContextChanged += (sender, o, n) => { ++childCount; };
 
 			child.Parent = parent;
 			Assert.AreEqual(parentCount, 0, "Parent BindingContext was changed while parenting a child.");
@@ -194,7 +194,7 @@ namespace Xamarin.Forms.Core.UnitTests
 			var parent = new MockBindable();
 
 			var child = new MockBindable();
-			child.BindingContextChanged += (sender, args) => { Assert.Fail("Child BindingContext was changed when there was no change in context."); };
+			child.BindingContextChanged += (sender, o, n) => { Assert.Fail("Child BindingContext was changed when there was no change in context."); };
 
 			child.Parent = parent; // this should not trigger binding context change on child since there is no change
 			parent.BindingContext = new object();
@@ -207,10 +207,10 @@ namespace Xamarin.Forms.Core.UnitTests
 			var count = 0;
 
 			var parent = new MockBindable();
-			parent.BindingContextChanged += (sender, args) => { ++count; };
+			parent.BindingContextChanged += (sender, o, n) => { ++count; };
 
 			var child = new MockBindable();
-			child.BindingContextChanged += (sender, args) => { ++count; };
+			child.BindingContextChanged += (sender, o, n) => { ++count; };
 
 			child.BindingContext = new object(); // set manually
 			Assert.AreEqual(count, 1);

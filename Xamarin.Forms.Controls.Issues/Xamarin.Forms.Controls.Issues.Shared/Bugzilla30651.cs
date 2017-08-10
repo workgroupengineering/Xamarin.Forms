@@ -33,7 +33,7 @@ namespace Xamarin.Forms.Controls.Issues
 				View = _myLabel = new Label();
 			}
 
-			protected override void OnBindingContextChanged()
+			protected override void OnBindingContextChanged(object oldValue, object newValue)
 			{
 				if (BindingContext == null)
 					return;
@@ -42,7 +42,7 @@ namespace Xamarin.Forms.Controls.Issues
 				_myLabel.Text = i;
 				Height = 100;
 
-				base.OnBindingContextChanged();
+				base.OnBindingContextChanged(oldValue, newValue);
 			}
 		}
 

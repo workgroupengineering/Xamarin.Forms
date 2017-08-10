@@ -64,9 +64,9 @@ namespace Xamarin.Forms.Controls.TestCasesPages
 
 	public class CellTemplate : ViewCell
 	{
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 
 			var text = BindingContext as string;
 			if (text == null)

@@ -68,13 +68,13 @@ namespace Xamarin.Forms.Controls.Issues
 			View = layout;
 		}
 
-		protected override void OnBindingContextChanged ()
+		protected override void OnBindingContextChanged (object oldValue, object newValue)
 		{
 			// Fixme : this is happening because the View.Parent is getting 
 			// set after the Cell gets the binding context set on it. Then it is inheriting
 			// the parents binding context.
 			View.BindingContext = BindingContext;
-			base.OnBindingContextChanged ();
+			base.OnBindingContextChanged (oldValue, newValue);
 		}
 	}
 

@@ -49,9 +49,9 @@ namespace Xamarin.Forms.Controls.Issues
 				View = stackLayout;
 			}
 
-			protected override void OnBindingContextChanged ()
+			protected override void OnBindingContextChanged (object oldValue, object newValue)
 			{
-				base.OnBindingContextChanged ();
+				base.OnBindingContextChanged (oldValue, newValue);
 				var item = BindingContext?.ToString();
 				if (string.IsNullOrWhiteSpace (item))
 					return;
