@@ -52,6 +52,7 @@ namespace Xamarin.Forms.Controls.Issues
 			protected override void OnBindingContextChanged (BindablePropertyChangedEventArgs args)
 			{
 				base.OnBindingContextChanged (args);
+
 				var item = BindingContext?.ToString();
 				if (string.IsNullOrWhiteSpace (item))
 					return;
