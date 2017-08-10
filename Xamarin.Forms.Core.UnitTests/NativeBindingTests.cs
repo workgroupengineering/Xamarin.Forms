@@ -58,10 +58,10 @@ namespace Xamarin.Forms.Core.UnitTests
 			nativeView.TransferbindablePropertiesToWrapper(this);
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			NativeView.SetBindingContext(BindingContext, nv => nv.SubViews);
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 	}
 

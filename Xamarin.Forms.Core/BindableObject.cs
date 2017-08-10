@@ -32,7 +32,7 @@ namespace Xamarin.Forms
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public event EventHandler BindingContextChanged;
+		public event BindableProperty.BindingPropertyChangedDelegate BindingContextChanged;
 
 		internal void ClearValue(BindableProperty property, bool fromStyle)
 		{
@@ -123,7 +123,7 @@ namespace Xamarin.Forms
 			}
 
 			bindable.ApplyBindings(skipBindingContext:false, fromBindingContextChanged:true);
-			bindable.OnBindingContextChanged();
+			bindable.OnBindingContextChanged(oldContext, value);
 		}
 
 		protected void ApplyBindings()
@@ -131,9 +131,9 @@ namespace Xamarin.Forms
 			ApplyBindings(skipBindingContext: false, fromBindingContextChanged: false);
 		}
 
-		protected virtual void OnBindingContextChanged()
+		protected virtual void OnBindingContextChanged(object oldValue, object newValue)
 		{
-			BindingContextChanged?.Invoke(this, EventArgs.Empty);
+			BindingContextChanged?.Invoke(this, oldValue, newValue);
 		}
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -444,7 +444,7 @@ namespace Xamarin.Forms
 		{
 			bindable._inheritedContext = null;
 			bindable.ApplyBindings(skipBindingContext: true, fromBindingContextChanged:true);
-			bindable.OnBindingContextChanged();
+			bindable.OnBindingContextChanged(oldvalue, newvalue);
 		}
 
 		void ClearValue(BindableProperty property, bool fromStyle, bool checkAccess)

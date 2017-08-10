@@ -25,12 +25,12 @@ namespace Xamarin.Forms
 			set { SetValue(ImageSourceProperty, value); }
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			if (ImageSource != null)
 				SetInheritedBindingContext(ImageSource, BindingContext);
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 
 		void OnSourceChanged(object sender, EventArgs eventArgs)

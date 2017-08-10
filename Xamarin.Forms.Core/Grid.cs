@@ -141,10 +141,10 @@ namespace Xamarin.Forms
 			view.PropertyChanged += OnItemPropertyChanged;
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			UpdateInheritedBindingContexts();
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 
 		protected override void OnRemoved(View view)

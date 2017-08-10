@@ -95,9 +95,9 @@ namespace Xamarin.Forms
 
 		public event EventHandler<WebNavigatingEventArgs> Navigating;
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 
 			WebViewSource source = Source;
 			if (source != null)

@@ -127,7 +127,7 @@ namespace Xamarin.Forms
 			set { SetValue(VerticalOptionsProperty, value); }
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			var gotBindingContext = false;
 			object bc = null;
@@ -147,7 +147,7 @@ namespace Xamarin.Forms
 				SetInheritedBindingContext(bo, bc);
 			}
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 
 		static void MarginPropertyChanged(BindableObject bindable, object oldValue, object newValue)

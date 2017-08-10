@@ -52,12 +52,12 @@ namespace Xamarin.Forms
 			set { SetValue(SourceProperty, value); }
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			if (Source != null)
 				SetInheritedBindingContext(Source, BindingContext);
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 
 		[Obsolete("OnSizeRequest is obsolete as of version 2.2.0. Please use OnMeasure instead.")]

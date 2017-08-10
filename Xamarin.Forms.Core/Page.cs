@@ -207,9 +207,9 @@ namespace Xamarin.Forms
 			return !canceled;
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 			foreach (ToolbarItem toolbarItem in ToolbarItems)
 			{
 				SetInheritedBindingContext(toolbarItem, BindingContext);

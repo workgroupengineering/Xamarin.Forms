@@ -336,7 +336,7 @@ namespace Xamarin.Forms
 			base.SetDynamicResource(property, key);
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			var gotBindingContext = false;
 			object bc = null;
@@ -360,7 +360,7 @@ namespace Xamarin.Forms
 					SetInheritedBindingContext(item, BindingContext);
 				}
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 
 		protected virtual void OnChildAdded(Element child)

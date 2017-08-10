@@ -131,9 +131,9 @@ namespace Xamarin.Forms
 				handler(this, EventArgs.Empty);
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 
 			if (HasContextActions)
 			{

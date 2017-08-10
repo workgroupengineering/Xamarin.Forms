@@ -11,9 +11,9 @@ namespace Xamarin.Forms
 			set { SetValue(ContentProperty, value); }
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 
 			View content = Content;
 			ControlTemplate controlTemplate = ControlTemplate;

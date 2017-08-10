@@ -173,13 +173,13 @@ namespace Xamarin.Forms
 			return _platformConfigurationRegistry.Value.On<T>();
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			FileImageSource image = Image;
 			if (image != null)
 				SetInheritedBindingContext(image, BindingContext);
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 
 		protected override void OnPropertyChanging(string propertyName = null)
