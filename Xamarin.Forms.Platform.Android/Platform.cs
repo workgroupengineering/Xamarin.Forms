@@ -342,11 +342,11 @@ namespace Xamarin.Forms.Platform.Android
 			UpdateActionBarUpImageColor();
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			SetInheritedBindingContext(Page, BindingContext);
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 
 		internal static IVisualElementRenderer CreateRenderer(VisualElement element, FragmentManager fragmentManager, Context context)

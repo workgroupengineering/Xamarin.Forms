@@ -22,10 +22,10 @@ namespace Xamarin.Forms.Platform.UWP
 
 		public FrameworkElement NativeElement { get; }
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			NativeElement.SetBindingContext(BindingContext,  nv =>  nv.GetChildren<FrameworkElement>());
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 	}
 }

@@ -123,11 +123,11 @@ namespace Xamarin.Forms.Platform.MacOS
 			bindable.SetValue(RendererProperty, value);
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			SetInheritedBindingContext(Page, BindingContext);
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 
 		internal NSViewController ViewController => PlatformRenderer;

@@ -23,10 +23,10 @@ namespace Xamarin.Forms.Platform.Android
 
 		public OnMeasureDelegate OnMeasureDelegate { get; }
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			NativeView.SetBindingContext(BindingContext, (view) => (view as ViewGroup)?.GetChildrenOfType<global::Android.Views.View>());
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 	}
 }

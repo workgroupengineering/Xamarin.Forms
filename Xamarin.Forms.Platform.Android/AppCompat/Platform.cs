@@ -212,11 +212,11 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 			}
 		}
 
-		protected override void OnBindingContextChanged()
+		protected override void OnBindingContextChanged(object oldValue, object newValue)
 		{
 			SetInheritedBindingContext(Page, BindingContext);
 
-			base.OnBindingContextChanged();
+			base.OnBindingContextChanged(oldValue, newValue);
 		}
 
 		internal void SetPage(Page newRoot)
