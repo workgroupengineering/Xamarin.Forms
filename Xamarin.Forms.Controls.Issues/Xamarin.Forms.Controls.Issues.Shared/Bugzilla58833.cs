@@ -52,9 +52,9 @@ namespace Xamarin.Forms.Controls.Issues
 				ContextActions.Add(new MenuItem { Text = s_index++ + " Action" });
 			}
 
-			protected override void OnBindingContextChanged()
+			protected override void OnBindingContextChanged(object oldValue, object newValue)
 			{
-				base.OnBindingContextChanged();
+				base.OnBindingContextChanged(oldValue, newValue);
 				_content.Text = (string)BindingContext;
 			}
 		}
